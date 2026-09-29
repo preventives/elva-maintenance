@@ -9,62 +9,50 @@
     
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    
+    <!-- Bibliothèques pour la lecture PDF et Excel -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
 <style id="elva-ceram-styles">
-:root[data-theme="light"] {
-    --primary-color: #2563eb;
-    --primary-dark: #1e40af;
-    --primary-light: #3b82f6;
-    --success-color: #10b981;
-    --danger-color: #ef4444;
-    --warning-color: #f59e0b;
-    --info-color: #3b82f6;
-    --bg-color: #f3f4f6;
-    --bg-light: #f9fafb;
-    --bg-card: #ffffff;
-    --text-color: #1f2937;
-    --text-light: #6b7280;
-    --text-lighter: #9ca3af;
-    --border-color: #e5e7eb;
-    --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
-    --shadow: 0 1px 3px rgba(0,0,0,0.1);
-    --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
-    --gradient-primary: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
-    --gradient-success: linear-gradient(135deg, #059669 0%, #10b981 100%);
-    --radius-sm: 8px;
-    --radius-md: 12px;
-    --radius-lg: 16px;
-    --radius-full: 50px;
-    --transition-fast: 0.15s ease;
-    --transition-base: 0.3s ease;
-    --transition-slow: 0.5s ease;
+:root {
+  --primary-color: #6B3F22;
+  --primary-dark: #4A2815;
+  --primary-light: #9A6A3A;
+  --info-color: #8A5A2B;
+  --warning-color: #C8A44D;
+  --success-color: #10b981;
+  --danger-color: #ef4444;
+  --bg-color: #F4F0E8;
+  --bg-light: #FBF9F4;
+  --bg-card: #FFFEFA;
+  --card-bg: #FFFEFA;
+  --text-color: #2B211B;
+  --text-light: #6F6257;
+  --border-color: #D8CABB;
+  --shadow-sm: 0 1px 2px rgba(74,40,21,0.05);
+  --shadow: 0 1px 3px rgba(74,40,21,0.1);
+  --shadow-lg: 0 10px 15px rgba(74,40,21,0.14);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-full: 50px;
 }
 
-:root[data-theme="dark"] {
-    --primary-color: #3b82f6;
-    --primary-dark: #2563eb;
-    --primary-light: #60a5fa;
-    --success-color: #10b981;
-    --danger-color: #f87171;
-    --warning-color: #fbbf24;
-    --info-color: #60a5fa;
-    --bg-color: #111827;
-    --bg-light: #1f2937;
-    --bg-card: #1f2937;
-    --text-color: #f9fafb;
-    --text-light: #d1d5db;
-    --text-lighter: #9ca3af;
-    --border-color: #374151;
-    --shadow-sm: 0 1px 2px rgba(0,0,0,0.5);
-    --shadow: 0 2px 8px rgba(0,0,0,0.6);
-    --shadow-lg: 0 10px 30px rgba(0,0,0,0.8);
-    --gradient-primary: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
-    --gradient-success: linear-gradient(135deg, #047857 0%, #10b981 100%);
-    --glow-primary: 0 0 20px rgba(59, 130, 246, 0.3);
+[data-theme="dark"] {
+  --primary-color: #C8A44D;
+  --primary-dark: #9A6A3A;
+  --primary-light: #E5C36B;
+  --bg-color: #111827;
+  --bg-light: #1f2937;
+  --bg-card: #1f2937;
+  --card-bg: #1f2937;
+  --text-color: #f9fafb;
+  --text-light: #d1d5db;
+  --border-color: #374151;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
-*:focus-visible { outline: 3px solid var(--primary-color); outline-offset: 2px; }
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: var(--bg-color);
@@ -73,157 +61,137 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    transition: background-color var(--transition-base), color var(--transition-base);
 }
 .container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
 
-header {
-    background: var(--gradient-primary);
-    color: white;
-    padding: 1.5rem 0;
+header[role="banner"] {
+    height: 76px !important;
+    background: linear-gradient(135deg, #4A2815 0%, #6B3F22 62%, #8A5A2B 100%);
+    color: #FFFDF8;
     box-shadow: var(--shadow-lg);
+    display: flex;
+    align-items: center;
 }
-.header-content { display: flex; align-items: center; justify-content: space-between; gap: 2rem; }
-.logo h1 { font-size: 1.8rem; font-weight: 700; }
-.header-title h2 { font-size: 1.5rem; margin-bottom: 0.25rem; }
-.header-title p { font-size: 0.9rem; opacity: 0.9; }
+.header-content { display: flex; align-items: center; justify-content: space-between; gap: 14px; width: 100%; }
 
-.theme-switcher { margin-left: auto; }
-.theme-btn {
-    display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.25rem;
-    background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3);
-    border-radius: var(--radius-full); color: white; cursor: pointer;
-    font-size: 0.95rem; font-weight: 500; transition: all var(--transition-base);
-    backdrop-filter: blur(10px);
+.logo.elva-brand-logo {
+    display: flex; align-items: center; justify-content: center;
+    background: #F7F2E9; border: 1px solid rgba(200,164,77,0.65);
+    border-radius: 5px; padding: 4px 8px; font-weight: 800; color: #4A2815; font-size: 1.1rem;
 }
-.theme-btn:hover { background: rgba(255,255,255,0.3); transform: translateY(-2px); }
+.header-title h2 { font-size: 1.05rem; line-height: 1.05; margin: 0; color: #FFFDF8; font-weight: 700; }
+.header-title p { font-size: 0.65rem; color: #F3E8D5; margin: 4px 0 0; }
 
 .main-nav {
-    background: var(--bg-card);
-    box-shadow: var(--shadow);
+    background: #FFFDF8;
+    border-bottom: 1px solid var(--border-color);
     position: sticky;
     top: 0;
     z-index: 100;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 8px rgba(74,40,21,0.08);
 }
-.main-nav .container {
-    display: flex; gap: 0.5rem; padding: 0.75rem 20px; overflow-x: auto; align-items: center;
-}
-.nav-group-title {
-    flex: 0 0 auto; padding: 0.5rem 0.7rem; font-size: 0.82rem; font-weight: 800;
-    color: var(--text-light); text-transform: uppercase; letter-spacing: .04em;
-    border-right: 1px solid var(--border-color); margin-right: .15rem;
-}
+.main-nav .container { display: flex; gap: 0.5rem; padding: 0.5rem 20px; overflow-x: auto; align-items: center; }
 .nav-btn {
-    display: flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem;
-    border: none; background: transparent; cursor: pointer; font-size: 1rem;
-    border-radius: var(--radius-md); transition: all var(--transition-base);
-    font-weight: 500; white-space: nowrap; color: var(--text-color);
+    display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.65rem 1.1rem;
+    border: none; background: transparent; cursor: pointer; font-size: 0.95rem;
+    border-radius: var(--radius-md); font-weight: 600; white-space: nowrap; color: #4A2815;
 }
-.nav-btn:hover { background: var(--bg-light); transform: translateY(-2px); }
-.nav-btn.active { background: var(--primary-color); color: white; }
+.nav-btn:hover { background: #F1E8DB; }
+.nav-btn.active { background: #C8A44D !important; color: #2B211B !important; font-weight: 700; }
 
-main { flex: 1; padding-bottom: 3rem; }
-.page { display: none; animation: fadeIn 0.4s ease; }
-.page.active { display: block; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+main { flex: 1; padding-bottom: 2rem; }
+.page { display: none; }
+.page.active { display: block; animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem; margin-bottom: 1.5rem; }
 .stat-card {
-    background: var(--bg-card); padding: 1.5rem; border-radius: var(--radius-lg);
-    box-shadow: var(--shadow); display: flex; align-items: center; gap: 1.5rem;
-    transition: all var(--transition-base); position: relative; overflow: hidden;
+    background: var(--bg-card); padding: 1.25rem 1.5rem; border-radius: var(--radius-lg);
+    box-shadow: var(--shadow); border: 1px solid var(--border-color);
+    display: flex; align-items: center; gap: 1.25rem; position: relative;
 }
-.stat-card::before { content: ''; position: absolute; top: 0; right: 0; width: 4px; height: 100%; background: var(--primary-color); }
+.stat-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 5px; background: var(--primary-color); border-radius: 8px 0 0 8px; }
 .stat-card.success::before { background: var(--success-color); }
 .stat-card.danger::before { background: var(--danger-color); }
 .stat-card.warning::before { background: var(--warning-color); }
-.stat-icon { font-size: 3rem; opacity: 0.8; }
-.stat-info h3 { font-size: 0.9rem; color: var(--text-light); margin-bottom: 0.5rem; font-weight: 500; }
-.stat-number { font-size: 2.5rem; font-weight: 700; color: var(--primary-color); }
+.stat-icon { font-size: 2.5rem; }
+.stat-info h3 { font-size: 0.85rem; color: var(--text-light); text-transform: uppercase; font-weight: 600; }
+.stat-number { font-size: 2rem; font-weight: 800; color: var(--primary-color); }
 
-.table-container { background: var(--bg-card); border-radius: var(--radius-lg); box-shadow: var(--shadow); overflow-x: auto; }
-.data-table { width: 100%; border-collapse: collapse; }
-.data-table thead { background: var(--primary-color); color: white; }
-.data-table th { padding: 1rem; text-align: left; font-weight: 600; font-size: 0.9rem; text-transform: uppercase; }
-.data-table td { padding: 1rem; text-align: left; border-bottom: 1px solid var(--border-color); font-size: 0.95rem; }
-.data-table tbody tr:hover { background: var(--bg-light); }
-
-.btn {
-    display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.5rem;
-    border: none; border-radius: var(--radius-md); cursor: pointer; font-size: 1rem;
-    font-weight: 500; text-decoration: none; white-space: nowrap;
+.admin-hub-page { max-width: 1180px; margin: 0 auto; }
+.admin-hub-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 18px; }
+.admin-hub-card {
+    border: 1px solid #D8CABB; background: #FFFEFA; color: #2B211B;
+    border-radius: 16px; min-height: 140px; padding: 20px; text-align: left;
+    cursor: pointer; display: flex; flex-direction: column; gap: 8px; box-shadow: 0 4px 12px rgba(74,40,21,0.06);
 }
-.btn-primary { background: var(--primary-color); color: white; }
-.btn-secondary { background: #6b7280; color: white; }
+.admin-hub-card:hover { transform: translateY(-2px); border-color: #C8A44D; box-shadow: 0 8px 20px rgba(74,40,21,0.14); }
+.admin-hub-card > span { font-size: 2rem; }
+
+.section-card { background: var(--bg-card); padding: 1.5rem; border-radius: var(--radius-lg); box-shadow: var(--shadow); border: 1px solid var(--border-color); }
+
+.table-container { background: var(--bg-card); border-radius: var(--radius-lg); box-shadow: var(--shadow); border: 1px solid var(--border-color); overflow-x: auto; margin-top: 1rem; }
+.data-table { width: 100%; border-collapse: collapse; text-align: left; }
+.data-table th { padding: 0.85rem 1rem; background: #F1E8DB; color: #4A2815; font-size: 0.85rem; font-weight: 700; border-bottom: 1px solid var(--border-color); }
+.data-table td { padding: 0.85rem 1rem; border-bottom: 1px solid var(--border-color); font-size: 0.9rem; }
+.data-table tr:hover { background: #FBF7F0; }
+
+.btn { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.5rem 1rem; border-radius: var(--radius-md); font-size: 0.9rem; font-weight: 600; cursor: pointer; border: 1px solid transparent; }
+.btn-primary { background: linear-gradient(135deg, #6B3F22, #8A5A2B); color: #FFFDF8; border-color: #6B3F22; }
+.btn-primary:hover { background: linear-gradient(135deg, #4A2815, #6B3F22); }
+.btn-secondary { background: var(--bg-light); color: var(--text-color); border-color: var(--border-color); }
 .btn-success { background: var(--success-color); color: white; }
-.btn-sm { padding: 0.5rem 1rem; font-size: 0.875rem; }
+.btn-sm { padding: 0.35rem 0.7rem; font-size: 0.8rem; }
 
-.modal {
-    display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6);
-    z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(5px);
-}
+.work-order-layout { display: grid; grid-template-columns: minmax(320px, 420px) 1fr; gap: 20px; align-items: start; margin-top: 1rem; }
+.wo-fiche-chip { display: inline-flex; align-items: center; gap: 6px; background: rgba(107,63,34,0.12); color: var(--primary-color); border: 1px solid #D8CABB; border-radius: 999px; padding: 6px 10px; font-weight: 700; margin: 3px; font-size: 0.85rem; }
+.wo-fiche-chip button { border: none; background: transparent; cursor: pointer; color: var(--danger-color); font-weight: 800; font-size: 1rem; }
+
+.modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.65); z-index: 1000; align-items: center; justify-content: center; padding: 1rem; backdrop-filter: blur(2px); }
 .modal.active { display: flex; }
-.modal-content {
-    background: var(--bg-card); padding: 2rem; border-radius: var(--radius-lg);
-    max-width: 650px; width: 92%; max-height: 90vh; overflow-y: auto;
-}
-.close { float: right; font-size: 2rem; cursor: pointer; color: var(--text-light); }
-.form-group { margin-bottom: 1.25rem; }
-.form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; }
-.form-group input, .form-group textarea, .form-group select {
-    width: 100%; padding: 0.75rem; border: 2px solid var(--border-color);
-    border-radius: var(--radius-md); font-size: 1rem; background: var(--bg-card); color: var(--text-color);
+.modal-content { background: var(--bg-card); border-radius: var(--radius-lg); padding: 1.5rem; max-width: 700px; width: 100%; max-height: 90vh; overflow-y: auto; border: 1px solid var(--border-color); }
+.close { float: right; font-size: 1.5rem; cursor: pointer; }
+
+.form-group { margin-bottom: 1rem; }
+.form-group label { display: block; margin-bottom: 0.3rem; font-weight: 600; font-size: 0.85rem; color: #4A2815; }
+.form-group input, .form-group select, .form-group textarea {
+    width: 100%; padding: 0.6rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm);
+    background: var(--bg-card); color: var(--text-color); font-size: 0.95rem; font-family: inherit;
 }
 
-/* Zone Signature Numérique Manuelle */
-.signature-box {
-    border: 2px dashed #C8A44D; border-radius: 12px; background: #ffffff;
-    margin: 8px 0; touch-action: none; position: relative;
-}
+/* Zone Signature Tactile (Noir Pur) */
+.signature-box { border: 2px dashed #C8A44D; border-radius: 12px; background: #FFFFFF; margin: 8px 0; touch-action: none; }
 .signature-box canvas { display: block; width: 100%; height: 130px; cursor: crosshair; }
 
-.toast-container { position: fixed; top: 2rem; right: 2rem; z-index: 99999; display: flex; flex-direction: column; gap: 1rem; max-width: 400px; }
-.toast { background: var(--bg-card); border-radius: var(--radius-md); box-shadow: var(--shadow-lg); border-left: 4px solid var(--primary-color); padding: 1rem; }
+#login-screen { position: fixed; inset: 0; z-index: 99999; display: flex; align-items: center; justify-content: center; background: rgba(74,40,21,0.85); backdrop-filter: blur(4px); }
+#login-screen.hidden { display: none; }
+.login-card { background: var(--bg-card); padding: 2rem; border-radius: var(--radius-lg); width: min(400px, 92%); box-shadow: var(--shadow-lg); border: 1px solid var(--border-color); }
+
+.toast-container { position: fixed; top: 1rem; right: 1rem; z-index: 99999; display: flex; flex-direction: column; gap: 0.5rem; }
+.toast { background: var(--bg-card); border-left: 4px solid var(--primary-color); padding: 0.75rem 1.25rem; border-radius: var(--radius-sm); box-shadow: var(--shadow-lg); font-size: 0.9rem; }
 .toast.success { border-left-color: var(--success-color); }
 .toast.error { border-left-color: var(--danger-color); }
 
-#login-screen { position: fixed; inset: 0; z-index: 99999; display: flex; align-items: center; justify-content: center; padding: 20px; background: linear-gradient(135deg,var(--bg-color),var(--bg-light)); }
-#login-screen.hidden { display: none; }
-.login-card { width: min(440px,100%); background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 20px; box-shadow: var(--shadow-lg); padding: 30px; }
+footer { margin-top: auto; padding: 1rem 0; text-align: center; background: #4A2815; color: #F3E8D5; font-size: 0.85rem; }
 
-/* Identité visuelle V12 ELVA CERAM */
-:root {
-  --primary-color:#6B3F22 !important;
-  --primary-dark:#4A2815 !important;
-  --primary-light:#9A6A3A !important;
-  --info-color:#8A5A2B !important;
-  --warning-color:#C8A44D !important;
-  --bg-color:#F4F0E8 !important;
-  --bg-light:#FBF9F4 !important;
-  --bg-card:#FFFEFA !important;
-  --card-bg:#FFFEFA !important;
-  --text-color:#2B211B !important;
-  --text-light:#6F6257 !important;
-  --border-color:#D8CABB !important;
+@media (max-width: 900px) {
+    .work-order-layout, .admin-hub-grid { grid-template-columns: 1fr; }
 }
-header[role="banner"] { background: linear-gradient(135deg,#4A2815 0%,#6B3F22 62%,#8A5A2B 100%) !important; }
-.nav-btn.active { background:#C8A44D !important; color:#2B211B !important; }
-.btn-primary { background:linear-gradient(135deg,#6B3F22,#8A5A2B) !important; border-color:#6B3F22 !important; }
 </style>
 </head>
 <body data-theme="light">
-    <!-- Écran de connexion -->
+
+    <!-- Écran de Connexion Dynamique -->
     <div id="login-screen" aria-modal="true" role="dialog">
         <div class="login-card">
-            <div style="text-align:center;font-size:2rem;font-weight:800;margin-bottom:8px;">🏭 ELVA CERAM</div>
+            <div style="text-align:center;font-size:2rem;font-weight:800;margin-bottom:8px;color:#4A2815;">🏭 ELVA CERAM</div>
             <div style="text-align:center;color:var(--text-light);margin-bottom:24px;">Accès au système de maintenance préventive</div>
             <form id="login-form" onsubmit="performLogin(event)">
                 <div class="form-group">
                     <label for="login-user">Utilisateur</label>
                     <select id="login-user" required>
                         <option value="LOCAL-ADMIN">Administrateur local — Administrateur</option>
-                        <option value="HAMZA-001">BOULELOUAH HAMZA — Technicien</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -238,120 +206,254 @@ header[role="banner"] { background: linear-gradient(135deg,#4A2815 0%,#6B3F22 62
 
     <div class="toast-container" id="toast-container" aria-live="polite"></div>
 
+    <!-- En-tête officiel SMQ -->
     <header role="banner">
         <div class="container header-content">
-            <div style="display:flex;align-items:center;gap:12px;">
-                <div class="logo" style="background:#F7F2E9;border:1px solid rgba(200,164,77,.65);border-radius:6px;padding:4px 8px;font-weight:800;color:#4A2815;">ELVA</div>
+            <div style="display:flex;align-items:center;gap:14px;">
+                <div class="logo elva-brand-logo">ELVA</div>
                 <div class="header-title">
                     <h2>Système de Gestion de Maintenance Préventive</h2>
                     <p>SYSTÈME DE MANAGEMENT DE LA QUALITÉ</p>
                 </div>
             </div>
             <div style="display:flex;align-items:center;gap:10px;margin-left:auto;">
-                <span id="current-role-badge" style="background:rgba(255,255,255,0.2);padding:4px 10px;border-radius:6px;font-weight:700;">Administrateur</span>
+                <span style="font-size:.78rem;font-weight:700;color:#F3E8D5;">Utilisateur connecté</span>
+                <span id="current-role-badge" style="background:#FFFDF8;color:#4A2815;padding:4px 10px;border-radius:999px;font-size:0.8rem;font-weight:800;">👑 Administrateur</span>
                 <button type="button" class="btn btn-secondary btn-sm" onclick="logout()">🚪 Déconnexion</button>
-                <button type="button" class="theme-btn" onclick="toggleTheme()">🌙</button>
+                <button type="button" class="btn btn-secondary btn-sm" onclick="toggleTheme()">🌙 Mode Sombre</button>
             </div>
         </div>
     </header>
 
+    <!-- Navigation Principale -->
     <nav class="main-nav" role="navigation">
-        <div class="container nav-row">
-            <button class="nav-btn active" data-page="dashboard"><span class="icon">📊</span>Statistiques</button>
-            <button class="nav-btn" data-page="today"><span class="icon">📌</span>Interventions du jour</button>
-            <button class="nav-btn" data-page="work-orders"><span class="icon">📝</span>Ordres de travail</button>
+        <div class="container">
+            <div style="font-weight:800;color:#6B3F22;margin-right:10px;">ELVA</div>
+            <button class="nav-btn" data-page="dashboard"><span class="icon">📊</span>Statistiques</button>
+            <button class="nav-btn active" data-page="admin-planification"><span class="icon">📅</span>Planification</button>
             <button class="nav-btn" data-page="validation"><span class="icon">✅</span>Validation</button>
-            <button class="nav-btn" data-page="administration"><span class="icon">⚙️</span>Administration</button>
+            <button class="nav-btn" data-page="admin-archives"><span class="icon">🗄️</span>Archives</button>
+            <button class="nav-btn" data-page="personnel"><span class="icon">👷</span>Personnel</button>
+            <button class="nav-btn" data-page="admin-administration"><span class="icon">⚙️</span>Administration</button>
+            <button class="nav-btn" data-page="today" style="display:none;"><span class="icon">📌</span>Interventions du jour</button>
         </div>
     </nav>
 
     <main id="main-content" class="container" role="main">
-        <!-- Page Tableau de bord -->
-        <section id="dashboard-page" class="page active">
-            <h2>Statistiques Générales</h2>
-            <div class="stats-grid" style="margin-top:1rem;">
-                <div class="stat-card primary">
-                    <div class="stat-icon">📊</div>
-                    <div class="stat-info">
-                        <h3>Total Interventions</h3>
-                        <div class="stat-number" id="total-interventions">0</div>
+        
+        <!-- Hub Planification (Votre Image Exacte) -->
+        <section id="admin-planification-page" class="page active admin-hub-page">
+            <div style="margin-bottom:1.5rem;">
+                <h2 style="font-size:1.8rem;color:#4A2815;margin-bottom:0.25rem;">📅 Planification</h2>
+                <p style="color:var(--text-light);">Préparer les données mensuelles puis les exploiter directement dans le Calendrier de Maintenance.</p>
+            </div>
+
+            <div class="section-card" style="margin-bottom:18px;">
+                <div>
+                    <h3 style="margin:0 0 6px;color:#4A2815;">📥 Importer les données de planification (PDF)</h3>
+                    <p style="margin:0;color:var(--text-light);font-size:0.9rem;">Les fichiers chargés ici alimentent directement le Calendrier de Maintenance. Un mois déjà chargé pourra être remplacé par une version plus récente.</p>
+                </div>
+                <div class="admin-hub-grid" style="grid-template-columns:repeat(2,1fr);margin-top:16px;">
+                    <div class="admin-hub-card" style="cursor:default;">
+                        <span>📅</span><strong>CALENDRIER mensuel (PDF)</strong>
+                        <select id="planification-calendrier-month-select" style="width:100%;margin-top:8px;padding:8px;border-radius:8px;border:1px solid var(--border-color);">
+                            <option value="09-2026">Septembre 2026 (Actif)</option>
+                            <option value="10-2026">Octobre 2026</option>
+                        </select>
+                        <input type="file" id="calendrier-file-input" accept=".pdf" style="display:none;" onchange="handleCalendrierUpload(event)">
+                        <button type="button" class="btn btn-primary" style="margin-top:10px;width:100%;" onclick="document.getElementById('calendrier-file-input').click()">📁 Choisir CALENDRIER</button>
                     </div>
+                    <div class="admin-hub-card" style="cursor:default;">
+                        <span>🗂️</span><strong>FICHES mensuelles (PDF)</strong>
+                        <select id="planification-fiches-month-select" style="width:100%;margin-top:8px;padding:8px;border-radius:8px;border:1px solid var(--border-color);">
+                            <option value="09-2026">Septembre 2026 (Actif)</option>
+                            <option value="10-2026">Octobre 2026</option>
+                        </select>
+                        <input type="file" id="fiches-file-input" accept=".pdf" style="display:none;" onchange="handleFichesUpload(event)">
+                        <button type="button" class="btn btn-primary" style="margin-top:10px;width:100%;" onclick="document.getElementById('fiches-file-input').click()">📁 Choisir FICHES</button>
+                    </div>
+                </div>
+                <div id="planification-summary-badges" style="margin-top:14px;font-size:0.9rem;font-weight:700;color:var(--primary-color);">
+                    📅 CALENDRIER : 1 mois &nbsp;&nbsp;&nbsp; 🗂️ FICHES : 1 mois
+                </div>
+            </div>
+
+            <div class="admin-hub-grid">
+                <button class="admin-hub-card" type="button" onclick="switchPage('today')"><span>📅</span><strong>Calendrier</strong><small>Consulter les interventions par date.</small></button>
+                <button class="admin-hub-card" type="button" onclick="switchPage('work-orders')"><span>📝</span><strong>Ordres de travail</strong><small>Créer, modifier et affecter les OT.</small></button>
+                <button class="admin-hub-card" type="button" onclick="switchPage('today')"><span>📌</span><strong>Interventions</strong><small>Voir les interventions d’une date donnée.</small></button>
+            </div>
+        </section>
+
+        <!-- Page Personnel (Ajout, Modification, Rôles et Suppression) -->
+        <section id="personnel-page" class="page admin-hub-page">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:10px;">
+                <h2 style="color:#4A2815;">👷 Personnel & Équipes</h2>
+                <button class="btn btn-secondary" onclick="switchPage('admin-planification')">⬅️ Retour Planification</button>
+            </div>
+
+            <div class="work-order-layout">
+                <div class="section-card">
+                    <h3 style="margin-bottom:1rem;color:#4A2815;">➕ Ajouter / Modifier un employé</h3>
+                    <form id="worker-form" onsubmit="saveWorker(event)">
+                        <input type="hidden" id="worker-edit-id" value="">
+                        <div class="form-group">
+                            <label for="worker-name">Nom complet *</label>
+                            <input type="text" id="worker-name" required placeholder="Ex. Ali Mansouri">
+                        </div>
+                        <div class="form-group">
+                            <label for="worker-matricule">Matricule</label>
+                            <input type="text" id="worker-matricule" placeholder="Ex. MAT-042">
+                        </div>
+                        <div class="form-group">
+                            <label for="worker-type">Spécialité *</label>
+                            <select id="worker-type" required>
+                                <option value="mecanique">🔧 Mécanique</option>
+                                <option value="electrique">⚡ Électrique</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="worker-role">Rôle / Niveau d'accès *</label>
+                            <select id="worker-role" required>
+                                <option value="technicien">Technicien</option>
+                                <option value="responsable">Responsable maintenance</option>
+                                <option value="admin">Administrateur</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="worker-access-code">Code d'accès secret *</label>
+                            <input type="text" id="worker-access-code" required placeholder="Ex. 1234">
+                        </div>
+                        <div style="display:flex;gap:8px;">
+                            <button type="submit" class="btn btn-primary" id="worker-save-btn">💾 Enregistrer l'employé</button>
+                            <button type="button" class="btn btn-secondary" id="worker-cancel-btn" style="display:none;" onclick="resetWorkerForm()">Annuler</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="section-card">
+                    <h3 style="margin-bottom:1rem;color:#4A2815;">👥 Liste du Personnel</h3>
+                    <div class="table-container" style="margin-top:0;">
+                        <table class="data-table">
+                            <thead><tr><th>NOM</th><th>MATRICULE</th><th>SPÉCIALITÉ</th><th>RÔLE</th><th>CODE</th><th>ACTIONS</th></tr></thead>
+                            <tbody id="workers-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page Ordres de Travail -->
+        <section id="work-orders-page" class="page">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:10px;">
+                <h2 style="color:#4A2815;">📝 Gestion des Ordres de Travail</h2>
+                <button class="btn btn-secondary" onclick="switchPage('admin-planification')">⬅️ Retour Planification</button>
+            </div>
+
+            <div class="work-order-layout">
+                <div class="section-card">
+                    <h3 id="wo-form-title" style="margin-bottom:1rem;color:#4A2815;">➕ Nouvel Ordre de Travail</h3>
+                    <form id="work-order-form" onsubmit="saveWorkOrder(event)">
+                        <input type="hidden" id="wo-edit-id" value="">
+                        
+                        <div class="form-group">
+                            <label for="wo-date">Date de l'OT *</label>
+                            <input type="date" id="wo-date" required onchange="populateAvailableFiches()">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="wo-worker">Technicien assigné *</label>
+                            <select id="wo-worker" required onchange="populateAvailableFiches()"></select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="wo-fiche-select">Ajouter des fiches prévues (max 10) *</label>
+                            <div style="display:flex;gap:6px;">
+                                <select id="wo-fiche-select">
+                                    <option value="">— Sélectionner une fiche —</option>
+                                </select>
+                                <button type="button" class="btn btn-secondary" onclick="addFicheToWorkOrder()">➕</button>
+                            </div>
+                        </div>
+
+                        <div id="wo-selected-fiches" style="min-height:45px;border:1px dashed var(--border-color);border-radius:8px;padding:6px;margin-bottom:1rem;">
+                            <span style="color:var(--text-light);font-size:0.85rem;">Aucune fiche sélectionnée.</span>
+                        </div>
+
+                        <div style="display:flex;gap:8px;">
+                            <button type="submit" class="btn btn-primary" id="wo-save-btn">💾 Enregistrer l'OT</button>
+                            <button type="button" class="btn btn-secondary" id="wo-cancel-btn" style="display:none;" onclick="resetWorkOrderForm()">Annuler</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="section-card">
+                    <h3 style="margin-bottom:1rem;color:#4A2815;">📋 Liste des Ordres de Travail Enregistrés</h3>
+                    <div class="table-container" style="margin-top:0;">
+                        <table class="data-table">
+                            <thead>
+                                <tr><th>N° OT</th><th>DATE</th><th>TECHNICIEN</th><th>FICHES</th><th>ACTIONS</th></tr>
+                            </thead>
+                            <tbody id="wo-tbody">
+                                <tr><td colspan="5" style="text-align:center;padding:2rem;">Aucun ordre de travail enregistré.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tableau de bord -->
+        <section id="dashboard-page" class="page">
+            <h2 style="color:#4A2815;margin-bottom:1rem;">Tableau de bord</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-info"><h3>Total Interventions</h3><div class="stat-number" id="total-interventions">0</div></div>
                 </div>
                 <div class="stat-card success">
                     <div class="stat-icon">✅</div>
-                    <div class="stat-info">
-                        <h3>Réalisées</h3>
-                        <div class="stat-number" id="done-interventions">0</div>
-                    </div>
+                    <div class="stat-info"><h3>Réalisées</h3><div class="stat-number" id="done-interventions">0</div></div>
                 </div>
                 <div class="stat-card danger">
                     <div class="stat-icon">⏰</div>
-                    <div class="stat-info">
-                        <h3>En Attente</h3>
-                        <div class="stat-number" id="pending-interventions">0</div>
-                    </div>
+                    <div class="stat-info"><h3>En Attente</h3><div class="stat-number" id="pending-interventions">0</div></div>
                 </div>
             </div>
         </section>
 
-        <!-- Page Interventions du jour -->
-        <section id="today-page" class="page">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:10px;">
-                <h2>📌 Interventions planifiées</h2>
-                <div style="display:flex;gap:8px;">
-                    <input type="date" id="today-date" onchange="renderTodayInterventions()">
-                    <button type="button" class="btn btn-secondary" onclick="setTodayDate()">Aujourd'hui</button>
-                </div>
-            </div>
-            <div class="table-container">
-                <table class="data-table">
-                    <thead>
-                        <tr><th>N° FICHE</th><th>MACHINE</th><th>CODE</th><th>DATE</th><th>STATUT</th><th>ACTION</th></tr>
-                    </thead>
-                    <tbody id="today-tbody">
-                        <tr><td colspan="6" style="text-align:center;padding:2rem;">Aucune intervention pour cette date.</td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
-
-        <!-- Page Ordres de travail (Admin) -->
-        <section id="work-orders-page" class="page">
-            <h2>📝 Ordres de travail</h2>
-            <div class="table-container">
-                <table class="data-table">
-                    <thead><tr><th>N° OT</th><th>DATE</th><th>TECHNICIEN</th><th>FICHES</th><th>STATUT</th></tr></thead>
-                    <tbody id="wo-tbody"><tr><td colspan="5" style="text-align:center;padding:2rem;">Aucun ordre de travail.</td></tr></tbody>
-                </table>
-            </div>
-        </section>
-
-        <!-- Page Validation (Admin) -->
+        <!-- Validation (Admin) -->
         <section id="validation-page" class="page">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:10px;">
-                <h2>✅ Validation des fiches par l'Administrateur</h2>
+                <h2 style="color:#4A2815;">✅ Validation des fiches par l'Administrateur</h2>
                 <button type="button" class="btn btn-secondary" onclick="pullFromGoogleSheetManual()">⬇️ Récupérer en ligne</button>
             </div>
             <div id="validation-summary-stats" style="display:flex;gap:1rem;margin-bottom:1rem;"></div>
             <div class="table-container">
                 <table class="data-table">
-                    <thead>
-                        <tr><th>DATE</th><th>N° FICHE</th><th>TECHNICIEN</th><th>MACHINE</th><th>TEMPS</th><th>ÉTAT</th><th>ACTION</th></tr>
-                    </thead>
-                    <tbody id="validation-tbody">
-                        <tr><td colspan="7" style="text-align:center;padding:2rem;">Aucune fiche en attente de validation.</td></tr>
-                    </tbody>
+                    <thead><tr><th>DATE</th><th>N° FICHE</th><th>TECHNICIEN</th><th>MACHINE</th><th>TEMPS</th><th>ÉTAT</th><th>ACTION</th></tr></thead>
+                    <tbody id="validation-tbody"><tr><td colspan="7" style="text-align:center;padding:2rem;">Aucune fiche en attente.</td></tr></tbody>
                 </table>
             </div>
         </section>
 
-        <!-- Page Administration (Admin) -->
-        <section id="administration-page" class="page">
-            <h2>⚙️ Configuration Cloud Google Sheets</h2>
-            <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:14px;padding:1.5rem;margin-top:1rem;">
-                <h3>☁️ Sauvegarde & Synchronisation en ligne</h3>
+        <!-- Archives (Admin) -->
+        <section id="admin-archives-page" class="page admin-hub-page">
+            <h2 style="color:#4A2815;margin-bottom:0.5rem;">🗄️ Archives</h2>
+            <p style="color:var(--text-light);margin-bottom:1rem;">Retrouver rapidement les fiches validées, par spécialité.</p>
+            <div class="admin-hub-grid" style="grid-template-columns:repeat(2,1fr);">
+                <div class="admin-hub-card"><span>⚡</span><strong>Archives Électriques</strong><small>Fiches électriques validées et archivées.</small></div>
+                <div class="admin-hub-card"><span>🔧</span><strong>Archives Mécaniques</strong><small>Fiches mécaniques validées et archivées.</small></div>
+            </div>
+        </section>
+
+        <!-- Administration Google Cloud (Admin) -->
+        <section id="admin-administration-page" class="page admin-hub-page">
+            <h2 style="color:#4A2815;margin-bottom:1rem;">⚙️ Configuration Google Sheets</h2>
+            <div class="section-card">
+                <h3>☁️ Liaison Web App Google Apps Script</h3>
                 <div class="form-group" style="margin-top:1rem;">
-                    <label for="gsync-url-input">URL Web App Google Apps Script (/exec) *</label>
+                    <label for="gsync-url-input">URL Web App Google (/exec) *</label>
                     <input id="gsync-url-input" type="text" placeholder="https://script.google.com/macros/s/.../exec">
                 </div>
                 <div class="form-group">
@@ -365,14 +467,52 @@ header[role="banner"] { background: linear-gradient(135deg,#4A2815 0%,#6B3F22 62
                 </div>
             </div>
         </section>
+
+        <!-- Interventions du jour (Technicien & Admin) -->
+        <section id="today-page" class="page">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:10px;">
+                <h2 style="color:#4A2815;">📌 Interventions planifiées</h2>
+                <div style="display:flex;gap:8px;">
+                    <input type="date" id="today-date" onchange="renderTodayInterventions()">
+                    <button type="button" class="btn btn-secondary" onclick="setTodayDate()">Aujourd'hui</button>
+                </div>
+            </div>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead><tr><th>N° FICHE</th><th>MACHINE</th><th>CODE</th><th>DATE</th><th>STATUT</th><th>ACTION</th></tr></thead>
+                    <tbody id="today-tbody"><tr><td colspan="6" style="text-align:center;padding:2rem;">Aucune intervention pour cette date.</td></tr></tbody>
+                </table>
+            </div>
+        </section>
     </main>
 
-    <!-- Modal Remplissage Technicien avec Signature -->
+    <!-- Modal Formulaire Technicien avec Contenu Complet de Fiche & Signature Noire -->
     <div id="technician-fiche-modal" class="modal" role="dialog" aria-hidden="true">
         <div class="modal-content">
             <span class="close" onclick="closeTechnicianFiche()">&times;</span>
-            <h2>📝 Compte-rendu d'intervention</h2>
-            <div id="technician-fiche-details"></div>
+            <h2 style="margin-bottom:0.75rem;color:#4A2815;">📝 Fiche d'intervention préventive</h2>
+            
+            <!-- Contenu technique visible par le technicien -->
+            <div id="technician-fiche-full-content" style="background:#FFFDF8;border:1px solid #D8CABB;border-radius:10px;padding:12px;margin-bottom:14px;">
+                <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px;">
+                    <div>
+                        <span id="tech-fiche-number-badge" style="background:var(--primary-color);color:#fff;padding:2px 8px;border-radius:6px;font-weight:800;font-size:0.85rem;">F-000</span>
+                        <h3 id="tech-fiche-machine" style="margin:4px 0 2px;color:#4A2815;font-size:1.05rem;">Nom de la Machine</h3>
+                        <p id="tech-fiche-code" style="color:var(--text-light);font-size:0.82rem;margin:0;">Code Équipement</p>
+                    </div>
+                    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px;">
+                        <span id="tech-fiche-periode" style="background:#F1E8DB;color:#4A2815;font-weight:700;padding:3px 8px;border-radius:999px;font-size:0.75rem;">7 JRS</span>
+                        <button type="button" class="btn btn-secondary btn-sm" onclick="viewFichePDFOriginal()">📄 Voir page PDF</button>
+                    </div>
+                </div>
+
+                <div style="margin-top:10px;border-top:1px solid #E5DFD5;padding-top:8px;">
+                    <strong style="color:#4A2815;font-size:0.85rem;">📋 Consignes & Points de contrôle :</strong>
+                    <div id="tech-fiche-operations" style="margin-top:5px;font-size:0.85rem;line-height:1.45;color:#2B211B;background:#FBF9F4;padding:8px 10px;border-radius:6px;border:1px dashed #D8CABB;"></div>
+                </div>
+            </div>
+
+            <!-- Formulaire de clôture -->
             <form onsubmit="event.preventDefault(); submitTechnicianFicheToAdmin();">
                 <div class="form-group">
                     <label for="technician-fiche-completion-date">Date de réalisation *</label>
@@ -383,7 +523,7 @@ header[role="banner"] { background: linear-gradient(135deg,#4A2815 0%,#6B3F22 62
                     <input id="technician-fiche-temps" type="number" min="1" required>
                 </div>
                 <div class="form-group">
-                    <label for="technician-fiche-etat">État de la machine *</label>
+                    <label for="technician-fiche-etat">État constaté *</label>
                     <select id="technician-fiche-etat" required>
                         <option value="">— Choisir —</option>
                         <option value="1 — RAS">1 — RAS</option>
@@ -394,17 +534,17 @@ header[role="banner"] { background: linear-gradient(135deg,#4A2815 0%,#6B3F22 62
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="technician-fiche-feedback">Observations & Feedback *</label>
-                    <textarea id="technician-fiche-feedback" rows="3" required placeholder="Travaux réalisés, pièces changées..."></textarea>
+                    <label for="technician-fiche-feedback">Observations & Pièces remplacées *</label>
+                    <textarea id="technician-fiche-feedback" rows="3" required placeholder="Travaux réalisés, contrôles effectués..."></textarea>
                 </div>
                 
                 <div class="form-group">
-                    <label>Signature tactile du technicien *</label>
+                    <label>Signature tactile du technicien (Noir pur) *</label>
                     <div class="signature-box">
                         <canvas id="tech-sig-canvas"></canvas>
                     </div>
                     <div style="display:flex;justify-content:space-between;align-items:center;">
-                        <small style="color:var(--text-light);">Signez au doigt ou à la souris</small>
+                        <small style="color:var(--text-light);">Signez au doigt sur mobile ou à la souris</small>
                         <button type="button" class="btn btn-secondary btn-sm" onclick="clearTechSignature()">Effacer</button>
                     </div>
                 </div>
@@ -417,15 +557,15 @@ header[role="banner"] { background: linear-gradient(135deg,#4A2815 0%,#6B3F22 62
         </div>
     </div>
 
-    <!-- Modal Validation Admin avec Signature -->
+    <!-- Modal Validation Admin avec Signature Noire -->
     <div id="admin-validation-modal" class="modal" role="dialog" aria-hidden="true">
         <div class="modal-content">
             <span class="close" onclick="closeAdminValidation()">&times;</span>
-            <h2>✅ Révision & Visa Administrateur</h2>
+            <h2 style="color:#4A2815;">✅ Révision & Visa Administrateur</h2>
             <div id="admin-validation-content" style="margin:1rem 0;"></div>
             
             <div class="form-group">
-                <label>Signature de l'administrateur *</label>
+                <label>Signature électronique de l'administrateur (Noir pur) *</label>
                 <div class="signature-box">
                     <canvas id="admin-sig-canvas"></canvas>
                 </div>
@@ -449,18 +589,43 @@ header[role="banner"] { background: linear-gradient(135deg,#4A2815 0%,#6B3F22 62
     </footer>
 
     <script id="elva-ceram-app">
+    if (typeof pdfjsLib !== 'undefined') {
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    }
+
     const LOCAL_ADMIN_PROFILE = { id: 'LOCAL-ADMIN', name: 'Administrateur local', role: 'admin', accessCode: 'ELVA-2026' };
-    const DEFAULT_WORKER = { id: 'HAMZA-001', name: 'BOULELOUAH HAMZA', role: 'technicien', accessCode: '001' };
+    
+    let workersData = JSON.parse(localStorage.getItem('workersData')) || [
+        { id: 'HAMZA-001', name: 'BOULELOUAH HAMZA', role: 'technicien', accessCode: '001', type: 'electrique', matricule: '001' }
+    ];
 
     let currentUserId = sessionStorage.getItem('elvaUserId') || 'LOCAL-ADMIN';
+    let globalFichesPDFBlobUrl = null;
+    
+    let fichesCatalog = {
+        'F-001': { machine: 'CONVOYEUR PDM TRNS-01', code: 'M-Z01-TRNS-01-7J', periodicite: '7 JRS', tasks: ['Contrôle tension de la bande et alignement des rouleaux.', 'Vérification du niveau d\'huile du moto-réducteur.', 'Nettoyage des racleurs et détection des bruits anormaux.'] },
+        'F-020': { machine: 'DISPOSITIF EVACUATION BROYEUR', code: 'M-Z01-PDBC-7J', periodicite: '7 JRS', tasks: ['Contrôle de l\'étanchéité de la vanne et tuyauterie barbotine.', 'Vérification graissage des paliers et serrage boulonnerie.', 'Inspection du débit d\'évacuation et absence de colmatage.'] },
+        'F-051': { machine: 'ATOMISEUR ATM 140', code: 'M-Z01-ATM140-15J', periodicite: '15 JRS', tasks: ['Inspection visuelle des buses d\'atomisation et usure des lances.', 'Contrôle pression pompe à barbotine et filtres tamis.', 'Vérification vibrateurs et étanchéité de la chambre d\'expansion.'] },
+        'F-009': { machine: 'ALIMENTATION MOULIN A VIS', code: 'E-Z01-ALMC-7J', periodicite: '7 JRS', tasks: ['Dépoussiérage du coffret et resserrage des bornes puissance.', 'Contrôle intensité moteur en charge et échauffement palier.', 'Test de l\'arrêt d\'urgence et de la sonde de sécurité rotation.'] },
+        'F-025': { machine: 'SEPARATEUR MAGNETIQUE', code: 'E-Z01-SEMB-7J', periodicite: '7 JRS', tasks: ['Vérification alimentation électrique et champ magnétique.', 'Nettoyage des impuretés métalliques retenues sur la grille.', 'Contrôle du voyant de signalisation et câblage de commande.'] }
+    };
+
     let interventionsData = JSON.parse(localStorage.getItem('interventionsData')) || [
         { id: 'INT-900001', fiche: 'F-001', datePrevue: '2026-09-07', machine: 'CONVOYEUR PDM TRNS-01', codeEquipement: 'M-Z01-TRNS-01-7J', status: 'planifie', fait: false },
-        { id: 'INT-900002', fiche: 'F-020', datePrevue: '2026-09-02', machine: 'DISPOSITIF EVACUATION BROYEUR', codeEquipement: 'M-Z01-PDBC-7J', status: 'planifie', fait: false }
+        { id: 'INT-900002', fiche: 'F-020', datePrevue: '2026-09-02', machine: 'DISPOSITIF EVACUATION BROYEUR', codeEquipement: 'M-Z01-PDBC-7J', status: 'planifie', fait: false },
+        { id: 'INT-900003', fiche: 'F-051', datePrevue: '2026-09-03', machine: 'ATOMISEUR ATM 140', codeEquipement: 'M-Z01-ATM140-15J', status: 'planifie', fait: false },
+        { id: 'INT-900004', fiche: 'F-009', datePrevue: '2026-09-06', machine: 'ALIMENTATION MOULIN A VIS', codeEquipement: 'E-Z01-ALMC-7J', status: 'planifie', fait: false },
+        { id: 'INT-900005', fiche: 'F-025', datePrevue: '2026-09-07', machine: 'SEPARATEUR MAGNETIQUE', codeEquipement: 'E-Z01-SEMB-7J', status: 'planifie', fait: false }
     ];
+
+    let workOrdersData = JSON.parse(localStorage.getItem('workOrdersData')) || [];
+    let currentSelectedFichesForOT = [];
+
     let currentIntervention = null;
     let techPad = null;
     let adminPad = null;
 
+    /* CANEVAS TACTILE & SOURIS EN NOIR PUR */
     class SignaturePad {
         constructor(canvasId) {
             this.canvas = document.getElementById(canvasId);
@@ -475,9 +640,10 @@ header[role="banner"] { background: linear-gradient(135deg,#4A2815 0%,#6B3F22 62
                 const rect = this.canvas.parentElement.getBoundingClientRect();
                 this.canvas.width = rect.width;
                 this.canvas.height = 130;
-                this.ctx.lineWidth = 2.5;
+                this.ctx.lineWidth = 2.8;
                 this.ctx.lineCap = 'round';
-                this.ctx.strokeStyle = '#2B211B';
+                this.ctx.lineJoin = 'round';
+                this.ctx.strokeStyle = '#000000'; // NOIR PUR
             };
             resize();
             window.addEventListener('resize', resize);
@@ -491,6 +657,11 @@ header[role="banner"] { background: linear-gradient(135deg,#4A2815 0%,#6B3F22 62
             const start = (e) => {
                 this.drawing = true;
                 this.hasSigned = true;
+                this.ctx.strokeStyle = '#000000'; // NOIR PUR GARANTI
+                this.ctx.lineWidth = 2.8;
+                this.ctx.lineCap = 'round';
+                this.ctx.lineJoin = 'round';
+
                 const pos = getPos(e);
                 this.ctx.beginPath();
                 this.ctx.moveTo(pos.x, pos.y);
@@ -512,10 +683,7 @@ header[role="banner"] { background: linear-gradient(135deg,#4A2815 0%,#6B3F22 62
             this.canvas.addEventListener('touchmove', move, { passive: false });
             window.addEventListener('touchend', stop);
         }
-        clear() {
-            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-            this.hasSigned = false;
-        }
+        clear() { this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); this.hasSigned = false; }
         toDataURL() { return this.hasSigned ? this.canvas.toDataURL('image/png') : null; }
         loadDataURL(dataUrl) {
             if (!dataUrl) return;
@@ -532,6 +700,8 @@ header[role="banner"] { background: linear-gradient(135deg,#4A2815 0%,#6B3F22 62
         techPad = new SignaturePad('tech-sig-canvas');
         adminPad = new SignaturePad('admin-sig-canvas');
 
+        populateLoginUserSelect();
+
         if (sessionStorage.getItem('elvaAuthenticated') === '1') {
             document.getElementById('login-screen').classList.add('hidden');
         }
@@ -539,6 +709,8 @@ header[role="banner"] { background: linear-gradient(135deg,#4A2815 0%,#6B3F22 62
         updateNavigationForRole();
         updateDashboard();
         renderValidationPage();
+        renderWorkOrders();
+        renderWorkers();
     });
 
     function initTheme() {
@@ -553,67 +725,104 @@ header[role="banner"] { background: linear-gradient(135deg,#4A2815 0%,#6B3F22 62
         localStorage.setItem('theme', next);
     }
 
+    function populateLoginUserSelect() {
+        const sel = document.getElementById('login-user');
+        if (!sel) return;
+        sel.innerHTML = '<option value="LOCAL-ADMIN">Administrateur local — Administrateur</option>' + 
+            workersData.map(w => `<option value="${escapeHTML(w.id)}">${escapeHTML(w.name)} — ${escapeHTML(w.role)}</option>`).join('');
+    }
+
     function updateNavigationForRole() {
         const user = getCurrentUser();
-        const isAdmin = (user.id === 'LOCAL-ADMIN' || user.role === 'admin');
+        const isAdmin = (user.id === 'LOCAL-ADMIN' || user.role === 'admin' || user.role === 'responsable');
 
+        const btnPlanif = document.querySelector('.nav-btn[data-page="admin-planification"]');
         const btnValidation = document.querySelector('.nav-btn[data-page="validation"]');
-        const btnAdmin = document.querySelector('.nav-btn[data-page="administration"]');
-        const btnWorkOrders = document.querySelector('.nav-btn[data-page="work-orders"]');
+        const btnArchives = document.querySelector('.nav-btn[data-page="admin-archives"]');
+        const btnPersonnel = document.querySelector('.nav-btn[data-page="personnel"]');
+        const btnAdmin = document.querySelector('.nav-btn[data-page="admin-administration"]');
+        const btnToday = document.querySelector('.nav-btn[data-page="today"]');
 
+        if (btnPlanif) btnPlanif.style.display = isAdmin ? 'inline-flex' : 'none';
         if (btnValidation) btnValidation.style.display = isAdmin ? 'inline-flex' : 'none';
+        if (btnArchives) btnArchives.style.display = isAdmin ? 'inline-flex' : 'none';
+        if (btnPersonnel) btnPersonnel.style.display = isAdmin ? 'inline-flex' : 'none';
         if (btnAdmin) btnAdmin.style.display = isAdmin ? 'inline-flex' : 'none';
-        if (btnWorkOrders) btnWorkOrders.style.display = isAdmin ? 'inline-flex' : 'none';
+        if (btnToday) btnToday.style.display = isAdmin ? 'none' : 'inline-flex';
     }
 
     function initNavigation() {
         document.querySelectorAll('.nav-btn').forEach(btn => {
             btn.addEventListener('click', () => {
-                document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-                document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-                btn.classList.add('active');
-                const target = document.getElementById(`${btn.dataset.page}-page`);
-                if (target) target.classList.add('active');
-
-                if (btn.dataset.page === 'validation') {
-                    pullFromGoogleSheetManual();
-                }
+                switchPage(btn.dataset.page);
             });
         });
     }
 
+    function switchPage(pageName) {
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        
+        const activeBtn = document.querySelector(`.nav-btn[data-page="${pageName}"]`);
+        if (activeBtn) activeBtn.classList.add('active');
+
+        const target = document.getElementById(`${pageName}-page`);
+        if (target) target.classList.add('active');
+
+        if (pageName === 'validation') {
+            pullFromGoogleSheetManual();
+        }
+        if (pageName === 'work-orders') {
+            renderWorkOrders();
+            populateAvailableFiches();
+            populateWorkerSelectInOT();
+        }
+        if (pageName === 'personnel') {
+            renderWorkers();
+        }
+    }
+
     function performLogin(e) {
         e.preventDefault();
-        const user = document.getElementById('login-user').value;
+        const userId = document.getElementById('login-user').value;
         const code = document.getElementById('login-code').value;
-        const valid = (user === 'LOCAL-ADMIN' && code === 'ELVA-2026') || (user === 'HAMZA-001' && code === '001');
+        
+        let valid = false;
+        if (userId === 'LOCAL-ADMIN') {
+            valid = (code === 'ELVA-2026');
+        } else {
+            const w = workersData.find(x => x.id === userId);
+            if (w && String(w.accessCode) === String(code)) {
+                valid = true;
+            }
+        }
 
         if (!valid) {
             document.getElementById('login-error').style.display = 'block';
             return;
         }
 
-        currentUserId = user;
-        sessionStorage.setItem('elvaUserId', user);
+        currentUserId = userId;
+        sessionStorage.setItem('elvaUserId', userId);
         sessionStorage.setItem('elvaAuthenticated', '1');
         document.getElementById('login-screen').classList.add('hidden');
-        document.getElementById('current-role-badge').textContent = user === 'LOCAL-ADMIN' ? '👑 Admin' : '🛠️ Technicien';
+        
+        const user = getCurrentUser();
+        document.getElementById('current-role-badge').textContent = user.id === 'LOCAL-ADMIN' ? '👑 Administrateur' : `🛠️ ${user.name}`;
         
         updateNavigationForRole();
 
-        if (user !== 'LOCAL-ADMIN') {
-            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            const todayBtn = document.querySelector('.nav-btn[data-page="today"]');
-            const todayPage = document.getElementById('today-page');
-            if (todayBtn) todayBtn.classList.add('active');
-            if (todayPage) todayPage.classList.add('active');
+        if (user.id === 'LOCAL-ADMIN' || user.role === 'admin' || user.role === 'responsable') {
+            switchPage('admin-planification');
+        } else {
+            switchPage('today');
         }
 
         showToast('Connexion réussie', 'success');
         updateDashboard();
         renderTodayInterventions();
         renderValidationPage();
+        renderWorkOrders();
     }
 
     function logout() {
@@ -622,7 +831,9 @@ header[role="banner"] { background: linear-gradient(135deg,#4A2815 0%,#6B3F22 62
     }
 
     function getCurrentUser() {
-        return currentUserId === 'LOCAL-ADMIN' ? LOCAL_ADMIN_PROFILE : DEFAULT_WORKER;
+        if (currentUserId === 'LOCAL-ADMIN') return LOCAL_ADMIN_PROFILE;
+        const w = workersData.find(x => x.id === currentUserId);
+        return w || workersData[0];
     }
 
     function setTodayDate() {
@@ -633,6 +844,458 @@ header[role="banner"] { background: linear-gradient(135deg,#4A2815 0%,#6B3F22 62
         }
     }
 
+    /* GESTION PERSONNEL */
+    function saveWorker(e) {
+        e.preventDefault();
+        const name = document.getElementById('worker-name').value.trim();
+        const matricule = document.getElementById('worker-matricule').value.trim();
+        const type = document.getElementById('worker-type').value;
+        const role = document.getElementById('worker-role').value;
+        const code = document.getElementById('worker-access-code').value.trim();
+        const editId = document.getElementById('worker-edit-id').value;
+
+        if (!name || !code) {
+            showToast('Nom et Code obligatoires.', 'warning');
+            return;
+        }
+
+        if (editId) {
+            const index = workersData.findIndex(w => w.id === editId);
+            if (index !== -1) {
+                workersData[index] = { id: editId, name, matricule, type, role, accessCode: code };
+                showToast('Employé mis à jour.', 'success');
+            }
+        } else {
+            const nextId = `W-${String(workersData.length + 1).padStart(3, '0')}`;
+            workersData.push({ id: nextId, name, matricule, type, role, accessCode: code });
+            showToast('Employé enregistré.', 'success');
+        }
+
+        localStorage.setItem('workersData', JSON.stringify(workersData));
+        resetWorkerForm();
+        populateLoginUserSelect();
+        renderWorkers();
+        syncWorkersToGoogle();
+    }
+
+    function resetWorkerForm() {
+        document.getElementById('worker-edit-id').value = '';
+        document.getElementById('worker-name').value = '';
+        document.getElementById('worker-matricule').value = '';
+        document.getElementById('worker-access-code').value = '';
+        document.getElementById('worker-save-btn').textContent = '💾 Enregistrer l\'employé';
+        document.getElementById('worker-cancel-btn').style.display = 'none';
+    }
+
+    function renderWorkers() {
+        const tbody = document.getElementById('workers-tbody');
+        if (!tbody) return;
+
+        tbody.innerHTML = workersData.map(w => `
+            <tr>
+                <td><strong>${escapeHTML(w.name)}</strong></td>
+                <td>${escapeHTML(w.matricule || '—')}</td>
+                <td>${w.type === 'electrique' ? '⚡ Électrique' : '🔧 Mécanique'}</td>
+                <td><span style="font-weight:700;">${escapeHTML(w.role)}</span></td>
+                <td><code>${escapeHTML(w.accessCode)}</code></td>
+                <td>
+                    <button class="btn btn-secondary btn-sm" onclick="editWorker('${w.id}')">✏️</button>
+                    <button class="btn btn-secondary btn-sm" style="color:var(--danger-color);" onclick="deleteWorker('${w.id}')">🗑️</button>
+                </td>
+            </tr>
+        `).join('');
+    }
+
+    function editWorker(id) {
+        const w = workersData.find(x => x.id === id);
+        if (!w) return;
+        document.getElementById('worker-edit-id').value = w.id;
+        document.getElementById('worker-name').value = w.name;
+        document.getElementById('worker-matricule').value = w.matricule || '';
+        document.getElementById('worker-type').value = w.type;
+        document.getElementById('worker-role').value = w.role;
+        document.getElementById('worker-access-code').value = w.accessCode;
+        document.getElementById('worker-save-btn').textContent = '💾 Mettre à jour';
+        document.getElementById('worker-cancel-btn').style.display = 'inline-flex';
+    }
+
+    function deleteWorker(id) {
+        if (!confirm('Supprimer cet employé ?')) return;
+        workersData = workersData.filter(x => x.id !== id);
+        localStorage.setItem('workersData', JSON.stringify(workersData));
+        populateLoginUserSelect();
+        renderWorkers();
+        syncWorkersToGoogle();
+    }
+
+    async function syncWorkersToGoogle() {
+        const url = localStorage.getItem('gsync_url') || document.getElementById('gsync-url-input')?.value;
+        const secret = localStorage.getItem('gsync_secret') || 'elva-2026';
+        if (!url) return;
+        try {
+            await fetch(url, {
+                method: 'POST', mode: 'cors',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify({ action: 'sync_workers', secret: secret, workers: workersData })
+            });
+        } catch (e) {}
+    }
+
+    /* ORDRES DE TRAVAIL */
+    function populateWorkerSelectInOT() {
+        const sel = document.getElementById('wo-worker');
+        if (!sel) return;
+        sel.innerHTML = '<option value="">— Choisir le travailleur —</option>' + 
+            workersData.map(w => `<option value="${escapeHTML(w.id)}">${escapeHTML(w.name)} (${w.type})</option>`).join('');
+    }
+
+    function populateAvailableFiches() {
+        const date = document.getElementById('wo-date')?.value;
+        const select = document.getElementById('wo-fiche-select');
+        if (!select) return;
+
+        if (!date) {
+            select.innerHTML = '<option value="">— Choisissez d\'abord une date —</option>';
+            return;
+        }
+
+        const available = interventionsData.filter(i => i.datePrevue === date && !currentSelectedFichesForOT.includes(i.fiche));
+        if (!available.length) {
+            select.innerHTML = '<option value="">— Aucune fiche disponible ce jour —</option>';
+            return;
+        }
+
+        select.innerHTML = '<option value="">— Choisir une fiche —</option>' + 
+            available.map(i => `<option value="${escapeHTML(i.fiche)}">${escapeHTML(i.fiche)} - ${escapeHTML(i.machine)} (${escapeHTML(i.codeEquipement)})</option>`).join('');
+    }
+
+    function addFicheToWorkOrder() {
+        const select = document.getElementById('wo-fiche-select');
+        const val = select.value;
+        if (!val) {
+            showToast('Sélectionnez une fiche.', 'warning');
+            return;
+        }
+
+        if (currentSelectedFichesForOT.length >= 10) {
+            showToast('Limite de 10 fiches atteinte.', 'warning');
+            return;
+        }
+
+        currentSelectedFichesForOT.push(val);
+        renderSelectedFichesUI();
+        populateAvailableFiches();
+    }
+
+    function removeFicheFromWorkOrder(fiche) {
+        currentSelectedFichesForOT = currentSelectedFichesForOT.filter(f => f !== fiche);
+        renderSelectedFichesUI();
+        populateAvailableFiches();
+    }
+
+    function renderSelectedFichesUI() {
+        const container = document.getElementById('wo-selected-fiches');
+        if (!container) return;
+
+        if (!currentSelectedFichesForOT.length) {
+            container.innerHTML = '<span style="color:var(--text-light);font-size:0.85rem;">Aucune fiche sélectionnée.</span>';
+            return;
+        }
+
+        container.innerHTML = currentSelectedFichesForOT.map(f => `
+            <span class="wo-fiche-chip">
+                ${escapeHTML(f)}
+                <button type="button" onclick="removeFicheFromWorkOrder('${escapeHTML(f)}')">×</button>
+            </span>
+        `).join('');
+    }
+
+    function saveWorkOrder(e) {
+        e.preventDefault();
+        const date = document.getElementById('wo-date').value;
+        const workerId = document.getElementById('wo-worker').value;
+        const editId = document.getElementById('wo-edit-id').value;
+
+        if (!date || !workerId) {
+            showToast('Date et Technicien obligatoires.', 'warning');
+            return;
+        }
+
+        if (!currentSelectedFichesForOT.length) {
+            showToast('Ajoutez au moins une fiche.', 'warning');
+            return;
+        }
+
+        const worker = workersData.find(w => w.id === workerId);
+        const workerName = worker ? worker.name : 'Technicien';
+
+        if (editId) {
+            const index = workOrdersData.findIndex(o => o.id === editId);
+            if (index !== -1) {
+                workOrdersData[index] = { id: editId, date, workerId, workerName, fiches: [...currentSelectedFichesForOT] };
+                showToast(`OT ${editId} mis à jour.`, 'success');
+            }
+        } else {
+            const nextNum = String(workOrdersData.length + 1).padStart(3, '0');
+            const newOT = {
+                id: `OT-${nextNum}`,
+                date,
+                workerId,
+                workerName,
+                fiches: [...currentSelectedFichesForOT]
+            };
+            workOrdersData.push(newOT);
+            showToast(`Ordre de travail ${newOT.id} créé.`, 'success');
+        }
+
+        interventionsData.forEach(i => {
+            if (i.datePrevue === date && currentSelectedFichesForOT.includes(i.fiche)) {
+                i.workerId = workerId;
+                i.workerName = workerName;
+            }
+        });
+
+        localStorage.setItem('workOrdersData', JSON.stringify(workOrdersData));
+        saveLocalStorage();
+        resetWorkOrderForm();
+        renderWorkOrders();
+        renderTodayInterventions();
+    }
+
+    function resetWorkOrderForm() {
+        document.getElementById('wo-edit-id').value = '';
+        document.getElementById('wo-date').value = '';
+        document.getElementById('wo-worker').value = '';
+        currentSelectedFichesForOT = [];
+        renderSelectedFichesUI();
+        populateAvailableFiches();
+        document.getElementById('wo-form-title').textContent = '➕ Nouvel Ordre de Travail';
+        document.getElementById('wo-save-btn').textContent = '💾 Enregistrer l\'OT';
+        document.getElementById('wo-cancel-btn').style.display = 'none';
+    }
+
+    function renderWorkOrders() {
+        const tbody = document.getElementById('wo-tbody');
+        if (!tbody) return;
+
+        if (!workOrdersData.length) {
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:2rem;">Aucun ordre de travail enregistré.</td></tr>';
+            return;
+        }
+
+        tbody.innerHTML = workOrdersData.map(o => `
+            <tr>
+                <td><strong>${escapeHTML(o.id)}</strong></td>
+                <td>${escapeHTML(o.date)}</td>
+                <td>${escapeHTML(o.workerName)}</td>
+                <td>${o.fiches.map(f => `<span class="wo-fiche-chip">${escapeHTML(f)}</span>`).join('')}</td>
+                <td>
+                    <button class="btn btn-secondary btn-sm" onclick="editWorkOrder('${o.id}')">✏️</button>
+                    <button class="btn btn-secondary btn-sm" style="color:var(--danger-color);" onclick="deleteWorkOrder('${o.id}')">🗑️</button>
+                </td>
+            </tr>
+        `).join('');
+    }
+
+    function editWorkOrder(id) {
+        const ot = workOrdersData.find(o => o.id === id);
+        if (!ot) return;
+
+        document.getElementById('wo-edit-id').value = ot.id;
+        document.getElementById('wo-date').value = ot.date;
+        document.getElementById('wo-worker').value = ot.workerId;
+        currentSelectedFichesForOT = [...ot.fiches];
+        renderSelectedFichesUI();
+        populateAvailableFiches();
+
+        document.getElementById('wo-form-title').textContent = `✏️ Modifier ${ot.id}`;
+        document.getElementById('wo-save-btn').textContent = '💾 Mettre à jour';
+        document.getElementById('wo-cancel-btn').style.display = 'inline-flex';
+    }
+
+    function deleteWorkOrder(id) {
+        if (!confirm(`Supprimer l'ordre ${id} ?`)) return;
+        workOrdersData = workOrdersData.filter(o => o.id !== id);
+        localStorage.setItem('workOrdersData', JSON.stringify(workOrdersData));
+        renderWorkOrders();
+        showToast('Ordre supprimé.', 'info');
+    }
+
+    /* 1. IMPORTATION DU CALENDRIER (PDF) */
+    async function handleCalendrierUpload(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        if (!file.name.toLowerCase().endsWith('.pdf') && file.type !== 'application/pdf') {
+            showToast('Veuillez sélectionner un fichier CALENDRIER au format PDF.', 'warning');
+            return;
+        }
+
+        showToast(`Analyse du planning PDF : ${file.name}...`, 'info');
+
+        try {
+            const arrayBuffer = await file.arrayBuffer();
+            const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+            let extracted = [];
+            let counter = 1;
+
+            const nameMatch = file.name.match(/(\d{1,2})[-_](\d{4})/);
+            const defaultMonth = nameMatch ? `${nameMatch[2]}-${nameMatch[1].padStart(2, '0')}` : '2026-09';
+
+            for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+                const page = await pdf.getPage(pageNum);
+                const textContent = await page.getTextContent();
+
+                const rowsMap = {};
+                textContent.items.forEach(item => {
+                    const y = Math.round(item.transform[5]);
+                    if (!rowsMap[y]) rowsMap[y] = [];
+                    rowsMap[y].push({ x: item.transform[4], str: item.str });
+                });
+
+                const sortedY = Object.keys(rowsMap).map(Number).sort((a, b) => b - a);
+
+                sortedY.forEach(y => {
+                    const lineItems = rowsMap[y].sort((a, b) => a.x - b.x);
+                    const lineText = lineItems.map(i => i.str).join(' ').trim();
+                    if (lineText.length < 6) return;
+
+                    const ficheMatch = lineText.match(/\bF[-\s]?(\d{1,3})\b/i);
+                    const dateMatch = lineText.match(/\b(\d{1,2})[\/-](\d{1,2})[\/-](\d{4})\b/) ||
+                                      lineText.match(/\b(\d{4})[\/-](\d{1,2})[\/-](\d{1,2})\b/);
+                    const codeMatch = lineText.match(/\b([ME]-[A-Z0-9]+(?:-[A-Z0-9]+)+)\b/i) ||
+                                      lineText.match(/\b([A-Z0-9]+-[A-Z0-9]+-[A-Z0-9]+)\b/i);
+
+                    if (ficheMatch) {
+                        const fiche = `F-${ficheMatch[1].padStart(3, '0')}`;
+                        let dateStr = '';
+                        if (dateMatch) {
+                            if (dateMatch[3].length === 4) {
+                                dateStr = `${dateMatch[3]}-${dateMatch[2].padStart(2, '0')}-${dateMatch[1].padStart(2, '0')}`;
+                            } else {
+                                dateStr = `${dateMatch[1]}-${dateMatch[2].padStart(2, '0')}-${dateMatch[3].padStart(2, '0')}`;
+                            }
+                        } else {
+                            const dayMatch = lineText.match(/\b([0-2]?\d|3[01])\b/);
+                            if (dayMatch) dateStr = `${defaultMonth}-${dayMatch[1].padStart(2, '0')}`;
+                        }
+
+                        const code = codeMatch ? codeMatch[1].toUpperCase() : 'M-Z01-GEN';
+                        let machine = lineText.replace(ficheMatch[0], '').replace(dateMatch ? dateMatch[0] : '', '').replace(codeMatch ? codeMatch[0] : '').replace(/\b\d+[\s-]*(?:j(?:rs)?|m(?:ois)?|ans?)\b/gi, '').replace(/\s+/g, ' ').trim();
+
+                        if (!machine || machine.length < 3) {
+                            machine = fichesCatalog[fiche] ? fichesCatalog[fiche].machine : `Équipement ${fiche}`;
+                        }
+
+                        const periodMatch = lineText.match(/\b(\d+[\s-]*(?:j(?:rs)?|m(?:ois)?|ans?))\b/i);
+                        const periode = periodMatch ? periodMatch[1].toUpperCase() : '7 JRS';
+
+                        if (dateStr) {
+                            extracted.push({
+                                id: `INT-${900000 + counter++}`,
+                                fiche: fiche,
+                                machine: machine,
+                                codeEquipement: code,
+                                datePrevue: dateStr,
+                                periode: periode,
+                                status: 'planifie',
+                                fait: false
+                            });
+                        }
+                    }
+                });
+            }
+
+            if (extracted.length > 0) {
+                interventionsData = extracted;
+                saveLocalStorage();
+                updateDashboard();
+                renderTodayInterventions();
+                populateAvailableFiches();
+
+                const badge = document.getElementById('planification-summary-badges');
+                if (badge) badge.innerHTML = `📅 CALENDRIER : ${extracted.length} intervention(s) extraite(s) &nbsp;&nbsp;&nbsp; 🗂️ FICHES : Actif`;
+                showToast(`✅ ${extracted.length} interventions extraites du PDF !`, 'success');
+            } else {
+                showToast('Aucune ligne reconnue dans ce PDF.', 'warning');
+            }
+
+        } catch (err) {
+            console.error(err);
+            showToast('Erreur lecture PDF calendrier.', 'error');
+        }
+    }
+
+    /* 2. IMPORTATION DES FICHES (PDF) */
+    async function handleFichesUpload(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        if (!file.name.toLowerCase().endsWith('.pdf') && file.type !== 'application/pdf') {
+            showToast('Veuillez sélectionner un fichier FICHES au format PDF.', 'warning');
+            return;
+        }
+
+        showToast(`Indexation du PDF FICHES : ${file.name}...`, 'info');
+
+        try {
+            const arrayBuffer = await file.arrayBuffer();
+            if (globalFichesPDFBlobUrl) URL.revokeObjectURL(globalFichesPDFBlobUrl);
+            globalFichesPDFBlobUrl = URL.createObjectURL(new Blob([arrayBuffer], { type: 'application/pdf' }));
+
+            const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+            let count = 0;
+
+            for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+                const page = await pdf.getPage(pageNum);
+                const textContent = await page.getTextContent();
+                const text = textContent.items.map(i => i.str).join(' ');
+
+                const match = text.match(/F[-\s]?(\d{1,3})/i);
+                if (match) {
+                    const ficheNum = `F-${match[1].padStart(3, '0')}`;
+                    const codeMatch = text.match(/\b([ME]-[A-Z0-9]+(?:-[A-Z0-9]+)+)\b/i);
+                    const tasks = text.split(/[\n\r•\.-]/).map(t => t.trim()).filter(t => t.length > 15 && !t.includes('SYSTÈME') && !t.includes('ELVA')).slice(0, 4);
+
+                    fichesCatalog[ficheNum] = {
+                        machine: fichesCatalog[ficheNum]?.machine || 'Équipement ' + ficheNum,
+                        code: codeMatch ? codeMatch[1].toUpperCase() : (fichesCatalog[ficheNum]?.code || 'M-Z01'),
+                        periodicite: fichesCatalog[ficheNum]?.periodicite || '7 JRS',
+                        pageNumber: pageNum,
+                        tasks: tasks.length > 0 ? tasks : [
+                            'Inspection mécanique et contrôle des organes en mouvement.',
+                            'Nettoyage, vérification des fixations et graissage.',
+                            'Contrôle visuel des étanchéités et des sécurités.'
+                        ]
+                    };
+                    count++;
+                }
+            }
+
+            const badge = document.getElementById('planification-summary-badges');
+            if (badge) badge.innerHTML = `📅 CALENDRIER : Actif &nbsp;&nbsp;&nbsp; 🗂️ FICHES : ${count} indexée(s)`;
+            showToast(`✅ ${count} fiche(s) indexée(s) depuis le PDF !`, 'success');
+
+        } catch (err) {
+            console.error(err);
+            showToast('Erreur lecture PDF fiches.', 'error');
+        }
+    }
+
+    function viewFichePDFOriginal() {
+        if (!currentIntervention) return;
+        const ficheNum = currentIntervention.fiche || '';
+        const info = fichesCatalog[ficheNum];
+
+        if (globalFichesPDFBlobUrl) {
+            const pageParam = (info && info.pageNumber) ? `#page=${info.pageNumber}` : '';
+            window.open(globalFichesPDFBlobUrl + pageParam, '_blank');
+        } else {
+            showToast(`Le PDF des fiches n'a pas encore été chargé dans Planification.`, 'warning');
+        }
+    }
+
+    /* INTERVENTIONS & VALIDATION */
     function renderTodayInterventions() {
         const date = document.getElementById('today-date')?.value;
         const tbody = document.getElementById('today-tbody');
@@ -665,10 +1328,27 @@ header[role="banner"] { background: linear-gradient(135deg,#4A2815 0%,#6B3F22 62
         currentIntervention = interventionsData.find(i => String(i.id) === String(id));
         if (!currentIntervention) return;
 
-        document.getElementById('technician-fiche-details').innerHTML = `
-            <div style="background:var(--bg-light);padding:10px;border-radius:6px;margin-bottom:12px;font-size:0.9rem;">
-                <strong>${currentIntervention.fiche}</strong> | ${currentIntervention.machine} (${currentIntervention.codeEquipement})
-            </div>
+        const ficheNum = currentIntervention.fiche || '';
+        const details = fichesCatalog[ficheNum] || {
+            machine: currentIntervention.machine,
+            code: currentIntervention.codeEquipement,
+            periodicite: '7 JRS',
+            tasks: [
+                'Vérification mécanique et contrôle visuel des organes en rotation.',
+                'Nettoyage, dépoussiérage et détection des échauffements / vibrations.',
+                'Contrôle des fixations, connexions électriques et sécurités opérateur.'
+            ]
+        };
+
+        document.getElementById('tech-fiche-number-badge').textContent = ficheNum;
+        document.getElementById('tech-fiche-machine').textContent = details.machine;
+        document.getElementById('tech-fiche-code').textContent = `Code équipement : ${details.code}`;
+        document.getElementById('tech-fiche-periode').textContent = details.periodicite;
+        
+        document.getElementById('tech-fiche-operations').innerHTML = `
+            <ul style="padding-left:16px;margin:0;">
+                ${details.tasks.map(t => `<li>${escapeHTML(t)}</li>`).join('')}
+            </ul>
         `;
 
         document.getElementById('technician-fiche-completion-date').value = currentIntervention.completionDate || currentIntervention.datePrevue;
@@ -767,18 +1447,28 @@ header[role="banner"] { background: linear-gradient(135deg,#4A2815 0%,#6B3F22 62
             const res = await fetch(url, { method: 'GET', mode: 'cors' });
             const data = await res.json();
 
-            if (data.status === 'ok' && Array.isArray(data.interventions)) {
-                data.interventions.forEach(remote => {
-                    const local = interventionsData.find(i => String(i.id) === String(remote.id));
-                    if (local) {
-                        Object.assign(local, remote);
-                        if (remote.status === 'en_attente_validation' || remote.status === 'valide') {
-                            local.fait = true;
+            if (data.status === 'ok') {
+                if (Array.isArray(data.interventions)) {
+                    data.interventions.forEach(remote => {
+                        const local = interventionsData.find(i => String(i.id) === String(remote.id));
+                        if (local) {
+                            Object.assign(local, remote);
+                            if (remote.status === 'en_attente_validation' || remote.status === 'valide') {
+                                local.fait = true;
+                            }
+                        } else {
+                            interventionsData.push(remote);
                         }
-                    } else {
-                        interventionsData.push(remote);
-                    }
-                });
+                    });
+                }
+
+                if (Array.isArray(data.workers) && data.workers.length > 0) {
+                    workersData = data.workers;
+                    localStorage.setItem('workersData', JSON.stringify(workersData));
+                    populateLoginUserSelect();
+                    renderWorkers();
+                }
+
                 saveLocalStorage();
                 renderValidationPage();
                 renderTodayInterventions();
@@ -830,7 +1520,7 @@ header[role="banner"] { background: linear-gradient(135deg,#4A2815 0%,#6B3F22 62
         if (!currentIntervention) return;
 
         let techSigHTML = currentIntervention.techSignatureData 
-            ? `<div style="margin-top:6px;"><img src="${currentIntervention.techSignatureData}" style="max-height:55px;border:1px solid var(--border-color);border-radius:4px;background:#fff;padding:2px;"></div>`
+            ? `<div style="margin-top:6px;"><img src="${currentIntervention.techSignatureData}" style="max-height:60px;border:1px solid #D8CABB;border-radius:6px;background:#fff;padding:4px;"></div>`
             : '<span style="color:var(--text-light);font-style:italic;">Signé numériquement</span>';
 
         document.getElementById('admin-validation-content').innerHTML = `
