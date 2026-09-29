@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Système de gestion de maintenance préventive pour ELVA CERAM">
+    <meta name="author" content="ELVA CERAM">
+    <title>Système de Gestion de Maintenance Préventive - ELVA CERAM</title>
+    
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+
+<style id="elva-ceram-styles">
+/* ========================================
+   Thème d'origine ELVA CERAM V12 / V14
+======================================== */
+:root {
+    --primary-color: #6B3F22;
+    --primary-dark: #4A2815;
+    --primary-light: #9A6A3A;
+    --info-color: #8A5A2B;
+    --warning-color: #C8A44D;
+    --success-color: #10b981;
+    --danger-color: #ef4444;
+    --bg-color: #F4F0E8;
+    --bg-light: #FBF9F4;
+    --bg-card: #FFFEFA;
+    --card-bg: #FFFEFA;
+    --text-color: #2B211B;
+    --text-light: #6F6257;
+    --border-color: #D8CABB;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+    --shadow: 0 1px 3px rgba(74,40,21,0.1);
+    --shadow-lg: 0 10px 15px rgba(74,40,21,0.14);
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-full: 50px;
+    --transition-base: 0.3s ease;
+}
+
+[data-theme="dark"] {
+    --primary-color: #C8A44D;
+    --primary-dark: #9A6A3A;
+    --primary-light: #E5C36B;
+    --bg-color: #111827;
+    --bg-light: #1f2937;
+    --bg-card: #1f2937;
+    --card-bg: #1f2937;
+    --text-color: #f9fafb;
+    --text-light: #d1d5db;
+    --border-color: #374151;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
+
+/* Header Original */
+header[role="banner"] {
+    min-height: 76px;
+    background: linear-gradient(135deg, #4A2815 0%, #6B3F22 62%, #8A5A2B 100%);
+    color: #FFFDF8;
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    align-items: center;
+}
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 8px 0;
+    width: 100%;
+}
+.logo.elva-brand-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #F7F2E9;
+    border: 1px solid rgba(200,164,77,0.65);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: #4A2815;
+}
+.header-title h2 { font-size: 1.1rem; margin: 0; color: #FFFDF8; font-weight: 700; }
+.header-title p { font-size: 0.7rem; color: #F3E8D5; margin: 2px 0 0; letter-spacing: 0.5px; }
+
+.theme-btn {
+    display: flex; align-items: center; gap: 0.4rem; padding: 0.4rem 0.8rem;
+    background: rgba(255,253,248,0.15); border: 1px solid rgba(255,253,248,0.3);
+    border-radius: var(--radius-full); color: white; cursor: pointer; font-size: 0.85rem;
+}
+
+/* Barre de navigation originale */
+.main-nav {
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 8px rgba(74,40,21,0.06);
+}
+.main-nav .container { display: flex; gap: 0.5rem; padding: 0.5rem 20px; overflow-x: auto; align-items: center; }
+.nav-btn {
+    display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.65rem 1.1rem;
+    border: none; background: transparent; cursor: pointer; font-size: 0.95rem;
+    border-radius: var(--radius-md); font-weight: 600; white-space: nowrap; color: #4A2815;
+    transition: all 0.2s ease;
+}
+.nav-btn:hover { background: #D9B98A; color: #3F2414; }
+.nav-btn.active { background: #C8A44D; color: #2B211B; font-weight: 700; box-shadow: 0 2px 8px rgba(200,164,77,0.3); }
+
+main { flex: 1; padding-bottom: 2rem; }
+.page { display: none; }
+.page.active { display: block; animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* Cartes statistiques du Dashboard */
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem; margin-bottom: 1.5rem; }
+.stat-card {
+    background: var(--bg-card);
+    padding: 1.25rem 1.5rem;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    position: relative;
+}
+.stat-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 5px; background: var(--primary-color); border-radius: 8px 0 0 8px; }
+.stat-card.success::before { background: var(--success-color); }
+.stat-card.danger::before { background: var(--danger-color); }
+.stat-card.warning::before { background: var(--warning-color); }
+
+.stat-icon { font-size: 2.5rem; opacity: 0.85; }
+.stat-info h3 { font-size: 0.85rem; color: var(--text-light); text-transform: uppercase; font-weight: 600; }
+.stat-number { font-size: 2rem; font-weight: 800; color: var(--primary-color); line-height: 1.2; }
+
+/* Graphiques & Section 7 jours */
+.dashboard-content { display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; margin-top: 1.5rem; }
+.chart-section {
+    background: var(--bg-card);
+    padding: 1.25rem;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow);
+    margin-bottom: 1.5rem;
+}
+.chart-container { position: relative; height: 260px; width: 100%; }
+
+.upcoming-analysis-card {
+    background: #3F2414 !important;
+    border: 1px solid #8A5A2B !important;
+    border-radius: 12px;
+    padding: 1rem;
+    color: #FFFFFF;
+}
+.upcoming-analysis-card h3 { color: #FFFFFF; margin-bottom: 1rem; font-size: 1.1rem; }
+.upcoming-item {
+    background: #5A351F;
+    border-left: 4px solid var(--warning-color);
+    padding: 0.75rem;
+    border-radius: 6px;
+    margin-bottom: 0.6rem;
+    font-size: 0.85rem;
+}
+
+/* Tableaux */
+.table-container {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border-color);
+    overflow-x: auto;
+    margin-top: 1rem;
+}
+.data-table { width: 100%; border-collapse: collapse; text-align: left; }
+.data-table th { padding: 0.85rem 1rem; background: #F1E8DB; color: #4A2815; font-size: 0.85rem; font-weight: 700; border-bottom: 1px solid var(--border-color); }
+.data-table td { padding: 0.85rem 1rem; border-bottom: 1px solid var(--border-color); font-size: 0.9rem; }
+.data-table tr:hover { background: #FBF7F0; }
+
+/* Boutons */
+.btn { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.5rem 1rem; border-radius: var(--radius-md); font-size: 0.9rem; font-weight: 600; cursor: pointer; border: 1px solid transparent; }
+.btn-primary { background: linear-gradient(135deg, #6B3F22, #8A5A2B); color: #FFFDF8; border-color: #6B3F22; }
+.btn-primary:hover { background: linear-gradient(135deg, #4A2815, #6B3F22); }
+.btn-secondary { background: var(--bg-light); color: var(--text-color); border-color: var(--border-color); }
+.btn-success { background: var(--success-color); color: white; }
+.btn-sm { padding: 0.35rem 0.7rem; font-size: 0.8rem; }
+
+/* Zone de signature tactile */
+.signature-box { border: 2px dashed #C8A44D; border-radius: var(--radius-md); background: #FFFFFF; margin: 8px 0; touch-action: none; }
+.signature-box canvas { display: block; width: 100%; height: 130px; cursor: crosshair; }
+
+.modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.65); z-index: 1000; align-items: center; justify-content: center; padding: 1rem; backdrop-filter: blur(2px); }
+.modal.active { display: flex; }
+.modal-content { background: var(--bg-card); border-radius: var(--radius-lg); padding: 1.5rem; max-width: 650px; width: 100%; max-height: 90vh; overflow-y: auto; border: 1px solid var(--border-color); }
+.close { float: right; font-size: 1.5rem; cursor: pointer; }
+
+.form-group { margin-bottom: 1rem; }
+.form-group label { display: block; margin-bottom: 0.3rem; font-weight: 600; font-size: 0.85rem; color: #4A2815; }
+.form-group input, .form-group select, .form-group textarea {
+    width: 100%; padding: 0.6rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm);
+    background: var(--bg-card); color: var(--text-color); font-size: 0.95rem; font-family: inherit;
+}
+
+#login-screen { position: fixed; inset: 0; z-index: 99999; display: flex; align-items: center; justify-content: center; background: rgba(74,40,21,0.85); backdrop-filter: blur(4px); }
+#login-screen.hidden { display: none; }
+.login-card { background: var(--bg-card); padding: 2rem; border-radius: var(--radius-lg); width: min(400px, 92%); box-shadow: var(--shadow-lg); border: 1px solid var(--border-color); }
+
+.toast-container { position: fixed; top: 1rem; right: 1rem; z-index: 99999; display: flex; flex-direction: column; gap: 0.5rem; }
+.toast { background: var(--bg-card); border-left: 4px solid var(--primary-color); padding: 0.75rem 1.25rem; border-radius: var(--radius-sm); box-shadow: var(--shadow-lg); font-size: 0.9rem; }
+.toast.success { border-left-color: var(--success-color); }
+.toast.error { border-left-color: var(--danger-color); }
+
+footer { margin-top: auto; padding: 1rem 0; text-align: center; background: #4A2815; color: #F3E8D5; font-size: 0.85rem; }
+
+@media (max-width: 900px) {
+    .dashboard-content { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body data-theme="light">
+
+    <!-- Écran de Connexion -->
+    <div id="login-screen" aria-modal="true" role="dialog">
+        <div class="login-card">
+            <h2 style="margin-bottom:0.4rem;color:#4A2815;">🏭 ELVA CERAM</h2>
+            <p style="color:var(--text-light);margin-bottom:1.5rem;font-size:0.85rem;">Système de Management de la Maintenance</p>
+            <form id="login-form" onsubmit="performLogin(event)">
+                <div class="form-group">
+                    <label for="login-user">Utilisateur</label>
+                    <select id="login-user" required>
+                        <option value="LOCAL-ADMIN">Administrateur local — Admin</option>
+                        <option value="HAMZA-001">BOULELOUAH HAMZA — Technicien</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="login-code">Code de vérification</label>
+                    <input id="login-code" type="password" placeholder="Code secret" required>
+                </div>
+                <div id="login-error" style="display:none;color:var(--danger-color);margin-bottom:1rem;font-weight:700;font-size:0.85rem;">Code incorrect.</div>
+                <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">🔐 Se connecter</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+    <!-- En-tête Original -->
+    <header role="banner">
+        <div class="container header-content">
+            <div style="display:flex;align-items:center;gap:12px;">
+                <div class="logo elva-brand-logo">ELVA</div>
+                <div class="header-title">
+                    <h2>Système de Gestion de Maintenance Préventive</h2>
+                    <p>SYSTÈME DE MANAGEMENT DE LA QUALITÉ</p>
+                </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;margin-left:auto;">
+                <span id="current-role-badge" style="background:rgba(255,255,255,0.2);padding:0.35rem 0.75rem;border-radius:6px;font-size:0.8rem;font-weight:700;">Admin</span>
+                <button type="button" class="btn btn-secondary btn-sm" onclick="logout()">🚪 Déconnexion</button>
+                <button type="button" class="theme-btn" onclick="toggleTheme()">🌙</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Originale -->
+    <nav class="main-nav" role="navigation">
+        <div class="container">
+            <button class="nav-btn active" data-page="dashboard">📊 Statistiques</button>
+            <button class="nav-btn" data-page="today">📌 Interventions du jour</button>
+            <button class="nav-btn" data-page="work-orders">📝 Ordres de travail</button>
+            <button class="nav-btn" data-page="validation">✅ Validation</button>
+            <button class="nav-btn" data-page="administration">⚙️ Administration</button>
+        </div>
+    </nav>
+
+    <!-- Contenu Principal -->
+    <main id="main-content" class="container">
+        
+        <!-- Page Tableau de bord (Statistiques Originales) -->
+        <section id="dashboard-page" class="page active">
+            <div style="margin-bottom:1.5rem;">
+                <h2 style="color:#4A2815;">Statistiques</h2>
+                <p style="color:var(--text-light);font-size:0.95rem;">Analyse des interventions et de la maintenance</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-info">
+                        <h3>Total Interventions</h3>
+                        <div class="stat-number" id="total-interventions">0</div>
+                    </div>
+                </div>
+                <div class="stat-card success">
+                    <div class="stat-icon">✅</div>
+                    <div class="stat-info">
+                        <h3>Réalisées</h3>
+                        <div class="stat-number" id="done-interventions">0</div>
+                    </div>
+                </div>
+                <div class="stat-card danger">
+                    <div class="stat-icon">⏰</div>
+                    <div class="stat-info">
+                        <h3>En Attente</h3>
+                        <div class="stat-number" id="pending-interventions">0</div>
+                    </div>
+                </div>
+                <div class="stat-card warning">
+                    <div class="stat-icon">🏭</div>
+                    <div class="stat-info">
+                        <h3>Ateliers</h3>
+                        <div class="stat-number" id="total-ateliers">12</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-content">
+                <div>
+                    <div class="chart-section">
+                        <h3 style="color:#4A2815;margin-bottom:1rem;font-size:1rem;">Interventions par Atelier</h3>
+                        <div class="chart-container">
+                            <canvas id="atelierChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-section">
+                        <h3 style="color:#4A2815;margin-bottom:1rem;font-size:1rem;">État des interventions</h3>
+                        <div class="chart-container">
+                            <canvas id="statusChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="upcoming-analysis-card">
+                        <h3>Interventions à venir — 7 jours</h3>
+                        <div id="upcoming-list"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page Interventions du jour -->
+        <section id="today-page" class="page">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:10px;">
+                <h2 style="color:#4A2815;">📌 Interventions planifiées</h2>
+                <div style="display:flex;gap:8px;">
+                    <input type="date" id="today-date-picker" onchange="renderTodayInterventions()">
+                    <button class="btn btn-secondary" onclick="setTodayDate()">Aujourd'hui</button>
+                </div>
+            </div>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>N° FICHE</th>
+                            <th>MACHINE</th>
+                            <th>CODE</th>
+                            <th>DATE</th>
+                            <th>STATUT</th>
+                            <th>ACTION</th>
+                        </tr>
+                    </thead>
+                    <tbody id="today-tbody">
+                        <tr><td colspan="6" style="text-align:center;padding:2rem;">Aucune intervention pour cette date.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Page Ordres de travail -->
+        <section id="work-orders-page" class="page">
+            <h2 style="color:#4A2815;margin-bottom:1rem;">📝 Ordres de Travail</h2>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr><th>N° OT</th><th>DATE</th><th>TECHNICIEN</th><th>FICHES</th><th>STATUT</th></tr>
+                    </thead>
+                    <tbody id="wo-tbody">
+                        <tr><td colspan="5" style="text-align:center;padding:2rem;">Aucun ordre de travail enregistré.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Page Validation Admin -->
+        <section id="validation-page" class="page">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:10px;">
+                <h2 style="color:#4A2815;">✅ Fiches en attente de validation</h2>
+                <button class="btn btn-secondary" onclick="pullFromGoogleSheetManual()">⬇️ Récupérer en ligne</button>
+            </div>
+            <div id="validation-summary-stats" style="display:flex;gap:1rem;margin-bottom:1rem;"></div>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>DATE</th>
+                            <th>N° FICHE</th>
+                            <th>TECHNICIEN</th>
+                            <th>MACHINE</th>
+                            <th>TEMPS</th>
+                            <th>ÉTAT</th>
+                            <th>ACTIONS</th>
+                        </tr>
+                    </thead>
+                    <tbody id="validation-tbody">
+                        <tr><td colspan="7" style="text-align:center;padding:2rem;">Aucune fiche en attente de validation.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Page Administration -->
+        <section id="administration-page" class="page">
+            <h2 style="color:#4A2815;margin-bottom:1rem;">⚙️ Configuration & Synchronisation Cloud</h2>
+            <div style="background:var(--bg-card);padding:1.5rem;border-radius:var(--radius-lg);border:1px solid var(--border-color);">
+                <h3>☁️ Liaison Google Apps Script</h3>
+                <div class="form-group" style="margin-top:1rem;">
+                    <label for="gsync-url-input">URL Web App Google (/exec) *</label>
+                    <input type="text" id="gsync-url-input" placeholder="https://script.google.com/macros/s/.../exec">
+                </div>
+                <div class="form-group">
+                    <label for="gsync-secret-input">Clé secrète (SECRET)</label>
+                    <input type="text" id="gsync-secret-input" value="elva-2026">
+                </div>
+                <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                    <button class="btn btn-primary" onclick="saveGoogleSyncSettings()">💾 Enregistrer la configuration</button>
+                    <button class="btn btn-secondary" onclick="testGoogleConnection()">🔌 Tester la connexion</button>
+                    <button class="btn btn-secondary" onclick="pullFromGoogleSheetManual()">⬇️ Récupérer les données en ligne</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal Formulaire Technicien avec Canvas de Signature -->
+    <div id="technician-fiche-modal" class="modal" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <span class="close" onclick="closeTechnicianFiche()">&times;</span>
+            <h2 style="margin-bottom:1rem;color:#4A2815;">📝 Compte-rendu d'intervention</h2>
+            <div id="technician-fiche-details"></div>
+            <form onsubmit="event.preventDefault(); submitTechnicianFicheToAdmin();">
+                <div class="form-group">
+                    <label for="technician-fiche-completion-date">Date de réalisation *</label>
+                    <input id="technician-fiche-completion-date" type="date" required>
+                </div>
+                <div class="form-group">
+                    <label for="technician-fiche-temps">Temps passé (minutes) *</label>
+                    <input id="technician-fiche-temps" type="number" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label for="technician-fiche-etat">État de la machine *</label>
+                    <select id="technician-fiche-etat" required>
+                        <option value="">— Choisir un état —</option>
+                        <option value="1 — RAS">1 — RAS</option>
+                        <option value="2 — Début de dégradation">2 — Début de dégradation</option>
+                        <option value="3 — Dégradation avancée">3 — Dégradation avancée</option>
+                        <option value="4 — Intervention immédiate">4 — Intervention immédiate</option>
+                        <option value="5 — Réparer">5 — Réparer</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="technician-fiche-feedback">Observations & Travaux réalisés *</label>
+                    <textarea id="technician-fiche-feedback" rows="3" required placeholder="Travaux réalisés, pièces remplacées..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Signature tactile du technicien *</label>
+                    <div class="signature-box">
+                        <canvas id="tech-sig-canvas"></canvas>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;">
+                        <small style="color:var(--text-light);">Signez avec le doigt ou la souris</small>
+                        <button type="button" class="btn btn-secondary btn-sm" onclick="clearTechSignature()">Effacer</button>
+                    </div>
+                </div>
+
+                <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:1.5rem;">
+                    <button type="button" class="btn btn-secondary" onclick="closeTechnicianFiche()">Annuler</button>
+                    <button type="submit" class="btn btn-success">📨 Envoyer à la validation Admin</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Validation Admin avec Signature -->
+    <div id="admin-validation-modal" class="modal" role="dialog" aria-hidden="true">
+        <div class="modal-content">
+            <span class="close" onclick="closeAdminValidation()">&times;</span>
+            <h2 style="color:#4A2815;">✅ Révision & Validation Admin</h2>
+            <div id="admin-validation-content" style="margin:1rem 0;"></div>
+            
+            <div class="form-group">
+                <label>Signature électronique de l'administrateur *</label>
+                <div class="signature-box">
+                    <canvas id="admin-sig-canvas"></canvas>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                    <small style="color:var(--text-light);">Visa et signature électronique</small>
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="clearAdminSignature()">Effacer</button>
+                </div>
+            </div>
+
+            <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:1.5rem;">
+                <button type="button" class="btn btn-secondary" onclick="closeAdminValidation()">Fermer</button>
+                <button type="button" class="btn btn-primary" onclick="confirmAdminValidation()">✍️ Signer & Archiver</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 ELVA CERAM — Système de Management de Maintenance</p>
+        </div>
+    </footer>
+
+    <!-- Chart.js pour les graphiques originaux -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script id="elva-ceram-app">
+    const LOCAL_ADMIN_PROFILE = { id: 'LOCAL-ADMIN', name: 'Administrateur', role: 'admin', accessCode: 'ELVA-2026' };
+    const DEFAULT_WORKER = { id: 'HAMZA-001', name: 'BOULELOUAH HAMZA', role: 'technicien', accessCode: '001' };
+
+    let currentUserId = sessionStorage.getItem('elvaUserId') || 'LOCAL-ADMIN';
+    let interventionsData = JSON.parse(localStorage.getItem('interventionsData')) || [
+        { id: 'INT-900001', fiche: 'F-001', datePrevue: '2026-09-07', machine: 'CONVOYEUR PDM TRNS-01', codeEquipement: 'M-Z01-TRNS-01-7J', atelier: 'ATOMISATION', status: 'planifie', fait: false },
+        { id: 'INT-900002', fiche: 'F-020', datePrevue: '2026-09-02', machine: 'DISPOSITIF EVACUATION BROYEUR', codeEquipement: 'M-Z01-PDBC-7J', atelier: 'BROYEUR', status: 'planifie', fait: false },
+        { id: 'INT-900003', fiche: 'F-051', datePrevue: '2026-09-03', machine: 'ATM 140', codeEquipement: 'M-Z01-ATM140-15J', atelier: 'ATOMISATION', status: 'planifie', fait: false },
+        { id: 'INT-900004', fiche: 'F-101', datePrevue: '2026-09-03', machine: 'PRESSE PH 6500', codeEquipement: 'M-Z02L1-PRS-01-15J', atelier: 'PRESSAGE', status: 'planifie', fait: false },
+        { id: 'INT-900005', fiche: 'F-263', datePrevue: '2026-09-07', machine: 'FOUR SACMI FMA', codeEquipement: 'M-Z06L1-FRS-01-7J', atelier: 'FOUR', status: 'planifie', fait: false }
+    ];
+    let currentIntervention = null;
+
+    let atelierChartInstance = null;
+    let statusChartInstance = null;
+    let techPad = null;
+    let adminPad = null;
+
+    class SignaturePad {
+        constructor(canvasId) {
+            this.canvas = document.getElementById(canvasId);
+            if (!this.canvas) return;
+            this.ctx = this.canvas.getContext('2d');
+            this.drawing = false;
+            this.hasSigned = false;
+            this.init();
+        }
+
+        init() {
+            const resize = () => {
+                const rect = this.canvas.parentElement.getBoundingClientRect();
+                this.canvas.width = rect.width;
+                this.canvas.height = 130;
+                this.ctx.lineWidth = 2.5;
+                this.ctx.lineCap = 'round';
+                this.ctx.strokeStyle = '#2B211B';
+            };
+            resize();
+            window.addEventListener('resize', resize);
+
+            const getPos = (e) => {
+                const rect = this.canvas.getBoundingClientRect();
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                return { x: clientX - rect.left, y: clientY - rect.top };
+            };
+
+            const start = (e) => {
+                this.drawing = true;
+                this.hasSigned = true;
+                const pos = getPos(e);
+                this.ctx.beginPath();
+                this.ctx.moveTo(pos.x, pos.y);
+                if (e.cancelable) e.preventDefault();
+            };
+
+            const move = (e) => {
+                if (!this.drawing) return;
+                const pos = getPos(e);
+                this.ctx.lineTo(pos.x, pos.y);
+                this.ctx.stroke();
+                if (e.cancelable) e.preventDefault();
+            };
+
+            const stop = () => { this.drawing = false; };
+
+            this.canvas.addEventListener('mousedown', start);
+            this.canvas.addEventListener('mousemove', move);
+            window.addEventListener('mouseup', stop);
+
+            this.canvas.addEventListener('touchstart', start, { passive: false });
+            this.canvas.addEventListener('touchmove', move, { passive: false });
+            window.addEventListener('touchend', stop);
+        }
+
+        clear() {
+            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            this.hasSigned = false;
+        }
+
+        toDataURL() {
+            return this.hasSigned ? this.canvas.toDataURL('image/png') : null;
+        }
+
+        loadDataURL(dataUrl) {
+            if (!dataUrl) return;
+            const img = new Image();
+            img.onload = () => {
+                this.ctx.drawImage(img, 0, 0);
+                this.hasSigned = true;
+            };
+            img.src = dataUrl;
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        initTheme();
+        initNavigation();
+        loadSettings();
+        techPad = new SignaturePad('tech-sig-canvas');
+        adminPad = new SignaturePad('admin-sig-canvas');
+
+        if (sessionStorage.getItem('elvaAuthenticated') === '1') {
+            document.getElementById('login-screen').classList.add('hidden');
+        }
+        setTodayDate();
+        updateNavigationForRole();
+        updateDashboard();
+        initCharts();
+        renderValidationPage();
+    });
+
+    function initTheme() {
+        const theme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', theme);
+        document.body.setAttribute('data-theme', theme);
+    }
+    function toggleTheme() {
+        const next = document.body.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', next);
+        document.body.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+    }
+
+    function updateNavigationForRole() {
+        const user = getCurrentUser();
+        const isAdmin = (user.id === 'LOCAL-ADMIN' || user.role === 'admin');
+
+        const btnValidation = document.querySelector('.nav-btn[data-page="validation"]');
+        const btnAdmin = document.querySelector('.nav-btn[data-page="administration"]');
+        const btnWorkOrders = document.querySelector('.nav-btn[data-page="work-orders"]');
+
+        if (btnValidation) btnValidation.style.display = isAdmin ? 'inline-flex' : 'none';
+        if (btnAdmin) btnAdmin.style.display = isAdmin ? 'inline-flex' : 'none';
+        if (btnWorkOrders) btnWorkOrders.style.display = isAdmin ? 'inline-flex' : 'none';
+    }
+
+    function initNavigation() {
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+                btn.classList.add('active');
+                const target = document.getElementById(`${btn.dataset.page}-page`);
+                if (target) target.classList.add('active');
+
+                if (btn.dataset.page === 'validation') {
+                    pullFromGoogleSheetManual();
+                }
+            });
+        });
+    }
+
+    function performLogin(e) {
+        e.preventDefault();
+        const user = document.getElementById('login-user').value;
+        const code = document.getElementById('login-code').value;
+        const valid = (user === 'LOCAL-ADMIN' && code === 'ELVA-2026') || (user === 'HAMZA-001' && code === '001');
+
+        if (!valid) {
+            document.getElementById('login-error').style.display = 'block';
+            return;
+        }
+
+        currentUserId = user;
+        sessionStorage.setItem('elvaUserId', user);
+        sessionStorage.setItem('elvaAuthenticated', '1');
+        document.getElementById('login-screen').classList.add('hidden');
+        document.getElementById('current-role-badge').textContent = user === 'LOCAL-ADMIN' ? '👑 Admin' : '🛠️ Technicien';
+        
+        updateNavigationForRole();
+
+        if (user !== 'LOCAL-ADMIN') {
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            const todayBtn = document.querySelector('.nav-btn[data-page="today"]');
+            const todayPage = document.getElementById('today-page');
+            if (todayBtn) todayBtn.classList.add('active');
+            if (todayPage) todayPage.classList.add('active');
+        }
+
+        showToast('Connexion réussie', 'success');
+        updateDashboard();
+        renderTodayInterventions();
+        renderValidationPage();
+    }
+
+    function logout() {
+        sessionStorage.clear();
+        document.getElementById('login-screen').classList.remove('hidden');
+    }
+
+    function getCurrentUser() {
+        return currentUserId === 'LOCAL-ADMIN' ? LOCAL_ADMIN_PROFILE : DEFAULT_WORKER;
+    }
+
+    function setTodayDate() {
+        const picker = document.getElementById('today-date-picker');
+        if (picker) {
+            picker.value = '2026-09-02';
+            renderTodayInterventions();
+        }
+    }
+
+    function renderTodayInterventions() {
+        const date = document.getElementById('today-date-picker')?.value;
+        const tbody = document.getElementById('today-tbody');
+        if (!tbody) return;
+
+        const filtered = interventionsData.filter(i => i.datePrevue === date);
+        if (!filtered.length) {
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:2rem;">Aucune intervention planifiée pour ce jour.</td></tr>';
+            return;
+        }
+
+        tbody.innerHTML = filtered.map(i => `
+            <tr>
+                <td><strong>${escapeHTML(i.fiche)}</strong></td>
+                <td>${escapeHTML(i.machine)}</td>
+                <td>${escapeHTML(i.codeEquipement)}</td>
+                <td>${escapeHTML(i.datePrevue)}</td>
+                <td><span style="font-weight:700;color:${i.fait ? 'var(--success-color)' : 'var(--danger-color)'}">${i.status}</span></td>
+                <td>
+                    ${i.status === 'valide' 
+                        ? '✅ Archivée' 
+                        : `<button class="btn btn-primary btn-sm" onclick="openTechnicianFiche('${i.id}')">🛠️ Remplir</button>`
+                    }
+                </td>
+            </tr>
+        `).join('');
+    }
+
+    function openTechnicianFiche(id) {
+        currentIntervention = interventionsData.find(i => String(i.id) === String(id));
+        if (!currentIntervention) return;
+
+        document.getElementById('technician-fiche-details').innerHTML = `
+            <div style="background:var(--bg-light);padding:10px;border-radius:6px;margin-bottom:12px;font-size:0.9rem;">
+                <strong>${currentIntervention.fiche}</strong> | ${currentIntervention.machine} (${currentIntervention.codeEquipement})
+            </div>
+        `;
+
+        document.getElementById('technician-fiche-completion-date').value = currentIntervention.completionDate || currentIntervention.datePrevue;
+        document.getElementById('technician-fiche-temps').value = currentIntervention.temps || '';
+        document.getElementById('technician-fiche-etat').value = currentIntervention.etat || '';
+        document.getElementById('technician-fiche-feedback').value = currentIntervention.feedback || '';
+
+        if (techPad) {
+            techPad.clear();
+            if (currentIntervention.techSignatureData) {
+                techPad.loadDataURL(currentIntervention.techSignatureData);
+            }
+        }
+
+        const modal = document.getElementById('technician-fiche-modal');
+        modal.removeAttribute('aria-hidden');
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function clearTechSignature() { if (techPad) techPad.clear(); }
+    function clearAdminSignature() { if (adminPad) adminPad.clear(); }
+
+    function closeTechnicianFiche() {
+        if (document.activeElement && typeof document.activeElement.blur === 'function') {
+            document.activeElement.blur();
+        }
+        const modal = document.getElementById('technician-fiche-modal');
+        if (modal) {
+            modal.classList.remove('active');
+            modal.setAttribute('aria-hidden', 'true');
+        }
+        document.body.style.overflow = '';
+    }
+
+    async function submitTechnicianFicheToAdmin() {
+        if (!currentIntervention) return;
+
+        const sigData = techPad ? techPad.toDataURL() : null;
+        if (!sigData) {
+            showToast('Veuillez apposer votre signature sur le cadre tactile.', 'warning');
+            return;
+        }
+
+        currentIntervention.completionDate = document.getElementById('technician-fiche-completion-date').value;
+        currentIntervention.temps = document.getElementById('technician-fiche-temps').value;
+        currentIntervention.etat = document.getElementById('technician-fiche-etat').value;
+        currentIntervention.feedback = document.getElementById('technician-fiche-feedback').value;
+        currentIntervention.status = 'en_attente_validation';
+        currentIntervention.fait = true;
+        currentIntervention.technicianName = getCurrentUser().name;
+        currentIntervention.techSignature = true;
+        currentIntervention.techSignatureData = sigData;
+
+        saveLocalStorage();
+        closeTechnicianFiche();
+        showToast('Fiche validée localement. Envoi vers Google Sheets...', 'info');
+
+        await pushSingleFicheToGoogle(currentIntervention);
+        renderTodayInterventions();
+        renderValidationPage();
+        updateDashboard();
+    }
+
+    async function pushSingleFicheToGoogle(fiche) {
+        const url = localStorage.getItem('gsync_url');
+        const secret = localStorage.getItem('gsync_secret') || 'elva-2026';
+        if (!url) return;
+
+        try {
+            const res = await fetch(url, {
+                method: 'POST',
+                mode: 'cors',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify({ action: 'submit_fiche', secret: secret, fiche: fiche })
+            });
+            const out = await res.json();
+            if (out.status === 'success') {
+                showToast('✅ Fiche transmise sur Google Sheets !', 'success');
+            }
+        } catch (e) {
+            console.warn('Google Sync hors ligne :', e);
+            showToast('Fiche conservée en local (Google hors ligne).', 'warning');
+        }
+    }
+
+    async function pullFromGoogleSheetManual() {
+        const url = localStorage.getItem('gsync_url');
+        if (!url) {
+            showToast('URL Google non configurée dans Administration.', 'warning');
+            return;
+        }
+
+        showToast('Récupération en ligne...', 'info');
+        try {
+            const res = await fetch(url, { method: 'GET', mode: 'cors' });
+            const data = await res.json();
+
+            if (data.status === 'ok' && Array.isArray(data.interventions)) {
+                data.interventions.forEach(remote => {
+                    const local = interventionsData.find(i => String(i.id) === String(remote.id));
+                    if (local) {
+                        Object.assign(local, remote);
+                        if (remote.status === 'en_attente_validation' || remote.status === 'valide') {
+                            local.fait = true;
+                        }
+                    } else {
+                        interventionsData.push(remote);
+                    }
+                });
+                saveLocalStorage();
+                renderValidationPage();
+                renderTodayInterventions();
+                updateDashboard();
+                showToast(`Synchronisation réussie : ${data.interventions.length} fiches à jour.`, 'success');
+            }
+        } catch (e) {
+            showToast('Erreur lors de la synchronisation en ligne.', 'error');
+        }
+    }
+
+    function renderValidationPage() {
+        const tbody = document.getElementById('validation-tbody');
+        const stats = document.getElementById('validation-summary-stats');
+        if (!tbody) return;
+
+        const toValidate = interventionsData.filter(i => i.status === 'en_attente_validation');
+        if (stats) {
+            stats.innerHTML = `
+                <div style="background:var(--bg-light);padding:8px 14px;border-radius:6px;border:1px solid var(--border-color);">
+                    <strong>${toValidate.length}</strong> fiche(s) en attente
+                </div>
+                <div style="background:var(--bg-light);padding:8px 14px;border-radius:6px;border:1px solid var(--border-color);">
+                    <strong>${interventionsData.filter(i => i.status === 'valide').length}</strong> fiche(s) validée(s)
+                </div>
+            `;
+        }
+
+        if (!toValidate.length) {
+            tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:2rem;">✅ Aucune fiche en attente de validation.</td></tr>';
+            return;
+        }
+
+        tbody.innerHTML = toValidate.map(i => `
+            <tr>
+                <td>${escapeHTML(i.completionDate || i.datePrevue)}</td>
+                <td><strong>${escapeHTML(i.fiche)}</strong></td>
+                <td>${escapeHTML(i.technicianName || 'Technicien')}</td>
+                <td>${escapeHTML(i.machine)}</td>
+                <td>${escapeHTML(i.temps)} min</td>
+                <td>${escapeHTML(i.etat)}</td>
+                <td><button class="btn btn-primary btn-sm" onclick="openAdminValidation('${i.id}')">🔍 Réviser</button></td>
+            </tr>
+        `).join('');
+    }
+
+    function openAdminValidation(id) {
+        currentIntervention = interventionsData.find(i => String(i.id) === String(id));
+        if (!currentIntervention) return;
+
+        let techSigHTML = currentIntervention.techSignatureData 
+            ? `<div style="margin-top:6px;"><img src="${currentIntervention.techSignatureData}" style="max-height:55px;border:1px solid var(--border-color);border-radius:4px;background:#fff;padding:2px;"></div>`
+            : '<span style="color:var(--text-light);font-style:italic;">Signé électroniquement</span>';
+
+        document.getElementById('admin-validation-content').innerHTML = `
+            <div style="background:var(--bg-light);padding:12px;border-radius:8px;line-height:1.7;">
+                <p><strong>Fiche :</strong> ${currentIntervention.fiche} — <strong>Machine :</strong> ${currentIntervention.machine}</p>
+                <p><strong>Technicien :</strong> ${currentIntervention.technicianName} | <strong>Temps :</strong> ${currentIntervention.temps} min</p>
+                <p><strong>État déclaré :</strong> ${currentIntervention.etat}</p>
+                <p><strong>Observations :</strong> <em>${escapeHTML(currentIntervention.feedback)}</em></p>
+                <div style="margin-top:6px;"><strong>Signature Technicien :</strong> ${techSigHTML}</div>
+            </div>
+        `;
+
+        if (adminPad) adminPad.clear();
+
+        const modal = document.getElementById('admin-validation-modal');
+        modal.removeAttribute('aria-hidden');
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeAdminValidation() {
+        if (document.activeElement && typeof document.activeElement.blur === 'function') {
+            document.activeElement.blur();
+        }
+        const modal = document.getElementById('admin-validation-modal');
+        if (modal) {
+            modal.classList.remove('active');
+            modal.setAttribute('aria-hidden', 'true');
+        }
+        document.body.style.overflow = '';
+    }
+
+    async function confirmAdminValidation() {
+        if (!currentIntervention) return;
+        
+        const adminSigData = adminPad ? adminPad.toDataURL() : null;
+        if (!adminSigData) {
+            showToast('Veuillez apposer votre visa/signature.', 'warning');
+            return;
+        }
+
+        currentIntervention.status = 'valide';
+        currentIntervention.adminSignature = true;
+        currentIntervention.adminSignatureData = adminSigData;
+
+        saveLocalStorage();
+        closeAdminValidation();
+        showToast('Fiche validée avec succès.', 'success');
+
+        await pushSingleFicheToGoogle(currentIntervention);
+        renderValidationPage();
+        renderTodayInterventions();
+        updateDashboard();
+    }
+
+    function updateDashboard() {
+        const total = interventionsData.length;
+        const done = interventionsData.filter(i => i.fait).length;
+        const pending = interventionsData.filter(i => !i.fait).length;
+
+        document.getElementById('total-interventions').textContent = total;
+        document.getElementById('done-interventions').textContent = done;
+        document.getElementById('pending-interventions').textContent = pending;
+
+        // Liste 7 jours
+        const listContainer = document.getElementById('upcoming-list');
+        if (listContainer) {
+            const next7 = interventionsData.slice(0, 4);
+            listContainer.innerHTML = next7.map(i => `
+                <div class="upcoming-item">
+                    <strong>${i.fiche} — ${i.machine}</strong>
+                    <div style="color:var(--warning-color);font-size:0.8rem;margin-top:2px;">Prévue le : ${i.datePrevue}</div>
+                </div>
+            `).join('');
+        }
+
+        if (statusChartInstance) {
+            statusChartInstance.data.datasets[0].data = [done, pending];
+            statusChartInstance.update();
+        }
+    }
+
+    function initCharts() {
+        const ctxAtelier = document.getElementById('atelierChart')?.getContext('2d');
+        if (ctxAtelier) {
+            atelierChartInstance = new Chart(ctxAtelier, {
+                type: 'bar',
+                data: {
+                    labels: ['Atomisation', 'Broyage', 'Pressage', 'Four', 'Polissage', 'Émaillage'],
+                    datasets: [{
+                        label: 'Interventions',
+                        data: [2, 1, 1, 1, 0, 0],
+                        backgroundColor: '#6B3F22'
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+        }
+
+        const ctxStatus = document.getElementById('statusChart')?.getContext('2d');
+        if (ctxStatus) {
+            const done = interventionsData.filter(i => i.fait).length;
+            const pending = interventionsData.filter(i => !i.fait).length;
+            statusChartInstance = new Chart(ctxStatus, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Réalisées', 'En Attente'],
+                    datasets: [{
+                        data: [done, pending],
+                        backgroundColor: ['#10b981', '#ef4444']
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+        }
+    }
+
+    function saveGoogleSyncSettings() {
+        const url = document.getElementById('gsync-url-input').value.trim();
+        const secret = document.getElementById('gsync-secret-input').value.trim();
+        localStorage.setItem('gsync_url', url);
+        localStorage.setItem('gsync_secret', secret);
+        showToast('Configuration enregistrée.', 'success');
+    }
+
+    function loadSettings() {
+        const url = localStorage.getItem('gsync_url');
+        const secret = localStorage.getItem('gsync_secret');
+        if (url) document.getElementById('gsync-url-input').value = url;
+        if (secret) document.getElementById('gsync-secret-input').value = secret;
+    }
+
+    async function testGoogleConnection() {
+        const url = document.getElementById('gsync-url-input').value.trim();
+        if (!url) {
+            showToast('Indiquez d\'abord l\'URL.', 'warning');
+            return;
+        }
+        try {
+            const res = await fetch(url, { method: 'GET', mode: 'cors' });
+            const data = await res.json();
+            if (data.status === 'ok') showToast('Connexion Google établie !', 'success');
+        } catch (e) {
+            showToast('Échec de la connexion.', 'error');
+        }
+    }
+
+    function saveLocalStorage() {
+        localStorage.setItem('interventionsData', JSON.stringify(interventionsData));
+    }
+
+    function showToast(msg, type = 'info') {
+        const container = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        toast.textContent = msg;
+        container.appendChild(toast);
+        setTimeout(() => toast.remove(), 3500);
+    }
+
+    function escapeHTML(str) {
+        return String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+    </script>
+</body>
+</html>
